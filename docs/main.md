@@ -39,4 +39,4 @@ for details.
 # Acknowledgments
 
 The technical drawings used in the docstrings have been created using 
-LibreCAD <https://librecad.org/>.
+LibreCAD (<https://librecad.org/>).

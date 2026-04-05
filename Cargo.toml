@@ -1,0 +1,41 @@
+[package]
+name = "stem_magnet"
+version = "0.1.0"
+edition = "2024"
+description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
+readme = "README.md"
+license  = "MIT OR Apache-2.0"
+repository = "https://github.com/StefanMathis/stem_magnet.git"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+compare_variables = { version = "0.2.1", features = ["proc_macro"] }
+planar_geo = { version = "^0.3.11" }
+nalgebra = "0.32"
+rayon = "1.5"
+serde_mosaic = { version = "0.2", optional = true, features = ["serde_yaml"] }
+deserialize_untagged_verbose_error = { version = "0.1", optional = true }
+serde = { version = "1", features = ["derive", "rc"], optional = true }
+cairo_viewport = { version = "0.2.4", optional = true}
+stem_material = { version = "0.3.3" }
+dyn-clone = "1"
+typetag = { version = "^0.2", optional = true }
+embed-doc-image = { version = "0.1.4", optional = true }
+
+[features]
+default = []
+serde = ["dep:serde_mosaic", "dep:deserialize_untagged_verbose_error", "dep:serde", "dep:typetag", "stem_material/serde"]
+cairo = ["dep:cairo_viewport", "planar_geo/cairo"]
+doc-images = ["dep:embed-doc-image"]
+
+[dev-dependencies]
+approx = { package = "approxim", version = "0.6" }
+indoc = "1.0"
+serde_yaml = "0.8"
+cairo_viewport = { version = "0.2", features = ["image-compare"]}
+stem_magnet = { path = ".", features = ["serde", "cairo"] } # Solution from https://stackoverflow.com/questions/68618789/is-it-possible-to-enable-a-rust-feature-only-in-test to enable feature during integration test
+
+[package.metadata.docs.rs]
+features = ["serde", "cairo", "doc-images"]
+rustdoc-args = ["--cfg", "docsrs"]

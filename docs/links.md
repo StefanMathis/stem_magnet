@@ -17,3 +17,4 @@ modify the components. -->
 Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors.
 
 The full API documentation is available at <https://docs.rs/stem_magnet/{{VERSION}}/stem_magnet>.
+

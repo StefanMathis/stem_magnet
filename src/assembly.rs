@@ -23,11 +23,11 @@ handling in manufcaturing, cost reduction etc.
 
 In the stem framework, the following assumptions for such an assembly are made:
 - Only one instance of a [`Magnet`] (the "base magnet") is used.
-- The base magnet is repeated [`MagnetAssembly::number_axial`] times along the
+- The base magnet is repeated [`MagnetAssembly::num_axial`] times along the
 axial air gap direction. The individual magnets are placed next to each other
 without a gap inbetween. This number must not be zero, which is enforced by the
 type system in the constructors.
-- The base magnet is repeated [`MagnetAssembly::number_tangential`] times along
+- The base magnet is repeated [`MagnetAssembly::num_tangential`] times along
 the tangential air gap direction. The individual magnets are placed next to each
 other without a gap inbetween. The image below shows an example for an assembly
 consisting of a [`ArcSegmentMagnet`](crate::arc::ArcSegmentMagnet) repeated 3
@@ -56,8 +56,8 @@ constructors.
 large magnet of the same dimensions would, see
 [`MagnetAssembly::magnetomotive_force`].
 
-To deserialize a [`MagnetAssembly`], the fields `magnet`, `number_axial` and
-`number_tangential` need to be specified (similar to the
+To deserialize a [`MagnetAssembly`], the fields `magnet`, `num_axial` and
+`num_tangential` need to be specified (similar to the
 [`new`](MagnetAssembly::new)) constructor. The latter two fields must not be
 zero.
 ```
@@ -75,8 +75,8 @@ magnet:
         material:
             name: NMF-12J 430mT
             relative_permeability: 1.05
-number_axial: 2
-number_tangential: 3
+num_axial: 2
+num_tangential: 3
 "};
 
 let assembly: MagnetAssembly = serde_yaml::from_str(&str).expect("valid dimensions");
@@ -93,8 +93,8 @@ magnet:
         material:
             name: NMF-12J 430mT
             relative_permeability: 1.05
-number_axial: 0
-number_tangential: 3
+num_axial: 0
+num_tangential: 3
 "};
 assert!(serde_yaml::from_str::<MagnetAssembly>(&str).is_err());
 ```
@@ -104,8 +104,8 @@ assert!(serde_yaml::from_str::<MagnetAssembly>(&str).is_err());
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 pub struct MagnetAssembly {
     magnet: Box<dyn Magnet>,
-    number_axial: usize,
-    number_tangential: usize,
+    num_axial: usize,
+    num_tangential: usize,
 }
 
 impl MagnetAssembly {
@@ -118,13 +118,13 @@ impl MagnetAssembly {
      */
     pub fn new<M: Magnet>(
         magnet: M,
-        number_axial: NonZeroUsize,
-        number_tangential: NonZeroUsize,
+        num_axial: NonZeroUsize,
+        num_tangential: NonZeroUsize,
     ) -> MagnetAssembly {
         return MagnetAssembly {
             magnet: Box::new(magnet),
-            number_axial: number_axial.into(),
-            number_tangential: number_tangential.into(),
+            num_axial: num_axial.into(),
+            num_tangential: num_tangential.into(),
         };
     }
 
@@ -134,13 +134,13 @@ impl MagnetAssembly {
     */
     pub fn from_boxed(
         magnet: Box<dyn Magnet>,
-        number_axial: NonZeroUsize,
-        number_tangential: NonZeroUsize,
+        num_axial: NonZeroUsize,
+        num_tangential: NonZeroUsize,
     ) -> MagnetAssembly {
         return MagnetAssembly {
             magnet,
-            number_axial: number_axial.into(),
-            number_tangential: number_tangential.into(),
+            num_axial: num_axial.into(),
+            num_tangential: num_tangential.into(),
         };
     }
 
@@ -150,20 +150,20 @@ impl MagnetAssembly {
     }
 
     /// Returns the number of times the base magnet is repeated axially.
-    pub fn number_axial(&self) -> usize {
-        return self.number_axial;
+    pub fn num_axial(&self) -> usize {
+        return self.num_axial;
     }
 
     /// Returns the number of times the base magnet is repeated tangentially.
-    pub fn number_tangential(&self) -> usize {
-        return self.number_tangential;
+    pub fn num_tangential(&self) -> usize {
+        return self.num_tangential;
     }
 
     /**
     Returns how many individual magnets are used in `self`.
 
-    This is the product of [`MagnetAssembly::number_axial()`] and
-    [`MagnetAssembly::number_tangential()`].
+    This is the product of [`MagnetAssembly::num_axial()`] and
+    [`MagnetAssembly::num_tangential()`].
 
     # Examples
 
@@ -183,14 +183,14 @@ impl MagnetAssembly {
     ```
      */
     pub fn number_magnets(&self) -> usize {
-        return self.number_axial * self.number_tangential;
+        return self.num_axial * self.num_tangential;
     }
 
     /**
     Returns the total width of the assembly.
 
     This is the product of `self.magnet().width()` and
-    [`MagnetAssembly::number_tangential`].
+    [`MagnetAssembly::num_tangential`].
 
     # Examples
 
@@ -210,14 +210,14 @@ impl MagnetAssembly {
     ```
      */
     pub fn width(&self) -> Length {
-        return self.magnet().width() * self.number_tangential as f64;
+        return self.magnet().width() * self.num_tangential as f64;
     }
 
     /**
     Returns the total length of the assembly.
 
     This is the product of `self.magnet().length()` and
-    [`MagnetAssembly::number_axial`].
+    [`MagnetAssembly::num_axial`].
 
     # Examples
 
@@ -237,7 +237,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn length(&self) -> Length {
-        return self.magnet().length() * self.number_axial as f64;
+        return self.magnet().length() * self.num_axial as f64;
     }
 
     /**
@@ -335,8 +335,8 @@ impl Clone for MagnetAssembly {
     fn clone(&self) -> Self {
         Self {
             magnet: dyn_clone::clone_box(&*self.magnet),
-            number_axial: self.number_axial.clone(),
-            number_tangential: self.number_tangential.clone(),
+            num_axial: self.num_axial.clone(),
+            num_tangential: self.num_tangential.clone(),
         }
     }
 }
@@ -349,14 +349,14 @@ impl<'de> Deserialize<'de> for MagnetAssembly {
         #[derive(Deserialize)]
         struct MagnetAssemblyNonZero {
             magnet: Box<dyn Magnet>,
-            number_axial: NonZeroUsize,
-            number_tangential: NonZeroUsize,
+            num_axial: NonZeroUsize,
+            num_tangential: NonZeroUsize,
         }
         let a = MagnetAssemblyNonZero::deserialize(deserializer)?;
         return Ok(MagnetAssembly {
             magnet: a.magnet,
-            number_axial: a.number_axial.into(),
-            number_tangential: a.number_tangential.into(),
+            num_axial: a.num_axial.into(),
+            num_tangential: a.num_tangential.into(),
         });
     }
 }

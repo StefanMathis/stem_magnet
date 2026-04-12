@@ -1121,9 +1121,9 @@ AcDbViewportTableRecord
  21
 1
  12
-33.52784852210685
+23.26316772275471
  22
-15.46774455014723
+17.20344632918947
  13
 0
  23
@@ -1149,9 +1149,9 @@ AcDbViewportTableRecord
  37
 0
  40
-71.721944003476
+55.0510282534063
  41
-1.832530120481928
+1.848880597014925
  42
 50
  43
@@ -2619,7 +2619,7 @@ AcDbSymbolTableRecord
 100
 AcDbBlockTableRecord
   2
-*D1
+*D2
  70
     0
 280
@@ -2637,7 +2637,7 @@ AcDbSymbolTableRecord
 100
 AcDbBlockTableRecord
   2
-*D2
+*D1
  70
     0
 280
@@ -2734,42 +2734,6 @@ BLOCK
 50
 330
 4F
-100
-AcDbEntity
-  8
-0
-100
-AcDbBlockBegin
-  2
-*D1
- 70
-    1
- 10
-0
- 20
-0
-  3
-*D1
-  1
-
-  0
-ENDBLK
-  5
-51
-330
-4F
-100
-AcDbEntity
-  8
-0
-100
-AcDbBlockEnd
-  0
-BLOCK
-  5
-53
-330
-52
 100
 AcDbEntity
   8
@@ -2990,6 +2954,42 @@ standard
     2
  44
 1
+  0
+ENDBLK
+  5
+51
+330
+4F
+100
+AcDbEntity
+  8
+0
+100
+AcDbBlockEnd
+  0
+BLOCK
+  5
+53
+330
+52
+100
+AcDbEntity
+  8
+0
+100
+AcDbBlockBegin
+  2
+*D1
+ 70
+    1
+ 10
+0
+ 20
+0
+  3
+*D1
+  1
+
   0
 ENDBLK
   5
@@ -3390,6 +3390,8 @@ AcDbDimension
 angle
  71
     5
+ 72
+    0
   3
 Standard
  53
@@ -3617,13 +3619,13 @@ AcDbMText
  40
 1
  41
-15.83333333333377
+13.6111111111115
  71
     2
  72
     1
   1
-number_tangential = 3
+num_tangential = 3
   7
 STANDARD
 210

@@ -37,6 +37,8 @@ where the sides are parallel to each other.
 - [`ArcSegmentMagnet`]: A curved magnet for surface mounting in rotary machines
 where the sides are radially oriented.
 
+The image below shows some of the magnet shapes possible with these types:
+
 ![Magnet types overview][magnet_types_overview.svg]
 
 If those magnet types do not suffice, it is very easy to define your own magnet

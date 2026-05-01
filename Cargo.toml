@@ -1,6 +1,6 @@
 [package]
 name = "stem_magnet"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
 readme = "README.md"
@@ -10,7 +10,7 @@ repository = "https://github.com/StefanMathis/stem_magnet.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-compare_variables = { version = "0.2.1", features = ["proc_macro"] }
+compare_variables = { version = "0.3.0", features = ["proc_macro"] }
 planar_geo = { version = "^0.4" }
 nalgebra = "0.32"
 rayon = "1"

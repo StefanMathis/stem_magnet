@@ -119,7 +119,7 @@ approx::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
 approx::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
 ```
 
-## with_center_thickness
+## `with_center_thickness`
 
 ```
 use stem_magnet::prelude::*;

@@ -37,13 +37,13 @@ automate this conversion within the magnet constructors.
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Options for defining an arc magnet][drawing_arc_parallel_enums]"
+    doc = "![Options for defining an arc magnet][cad_arc_parallel_enums]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_parallel_enums",
-        "docs/img/drawing_arc_parallel_enums.svg"
+        "cad_arc_parallel_enums",
+        "docs/img/cad_arc_parallel_enums.svg"
     )
 )]
 #[cfg_attr(
@@ -159,13 +159,13 @@ is recommended to sanity-check the inputs or the output.
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Options for defining an arc magnet][drawing_arc_parallel_enums]"
+    doc = "![Options for defining an arc magnet][cad_arc_parallel_enums]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_parallel_enums",
-        "docs/img/drawing_arc_parallel_enums.svg"
+        "cad_arc_parallel_enums",
+        "docs/img/cad_arc_parallel_enums.svg"
     )
 )]
 #[cfg_attr(
@@ -288,13 +288,13 @@ mounted.
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Arc parallel magnet definitions][drawing_arc_parallel_magnet]"
+    doc = "![Arc parallel magnet definitions][cad_arc_parallel_magnet]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_parallel_magnet",
-        "docs/img/drawing_arc_parallel_magnet.svg"
+        "cad_arc_parallel_magnet",
+        "docs/img/cad_arc_parallel_magnet.svg"
     )
 )]
 #[cfg_attr(
@@ -337,13 +337,13 @@ image:
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Magnet form dependence on radius][drawing_arc_segment_magnet_pos_neg_radii]"
+    doc = "![Magnet form dependence on radius][cad_arc_segment_magnet_pos_neg_radii]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_segment_magnet_pos_neg_radii",
-        "docs/img/drawing_arc_segment_magnet_pos_neg_radii.svg"
+        "cad_arc_segment_magnet_pos_neg_radii",
+        "docs/img/cad_arc_segment_magnet_pos_neg_radii.svg"
     )
 )]
 #[cfg_attr(

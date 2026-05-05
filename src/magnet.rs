@@ -64,19 +64,19 @@ for both rotary and linear motors, as shown below:
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Magnet coordinate system in rotary motors][drawing_rotary_motor]"
+    doc = "![Magnet coordinate system in rotary motors][cad_rotary_motor]"
 )]
 #[cfg_attr(
     feature = "doc-images",
-    embed_doc_image::embed_doc_image("drawing_rotary_motor", "docs/img/drawing_rotary_motor.svg")
+    embed_doc_image::embed_doc_image("cad_rotary_motor", "docs/img/cad_rotary_motor.svg")
 )]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Magnet coordinate system in linear motors][drawing_linear_motor]"
+    doc = "![Magnet coordinate system in linear motors][cad_linear_motor]"
 )]
 #[cfg_attr(
     feature = "doc-images",
-    embed_doc_image::embed_doc_image("drawing_linear_motor", "docs/img/drawing_linear_motor.svg")
+    embed_doc_image::embed_doc_image("cad_linear_motor", "docs/img/cad_linear_motor.svg")
 )]
 #[cfg_attr(
     not(feature = "doc-images"),

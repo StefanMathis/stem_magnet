@@ -43,11 +43,11 @@ than half the `thickness` or `width` (`0 m <= fillet <= 0.5*thickness` and
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Block magnet definitions][drawing_block_magnet]"
+    doc = "![Block magnet definitions][cad_block_magnet]"
 )]
 #[cfg_attr(
     feature = "doc-images",
-    embed_doc_image::embed_doc_image("drawing_block_magnet", "docs/img/drawing_block_magnet.svg")
+    embed_doc_image::embed_doc_image("cad_block_magnet", "docs/img/cad_block_magnet.svg")
 )]
 #[cfg_attr(
     not(feature = "doc-images"),

@@ -67,13 +67,13 @@ positive (`side_thickness > 0 m`).
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Breadloaf magnet definitions][drawing_breadloaf_magnet]"
+    doc = "![Breadloaf magnet definitions][cad_breadloaf_magnet]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_breadloaf_magnet",
-        "docs/img/drawing_breadloaf_magnet.svg"
+        "cad_breadloaf_magnet",
+        "docs/img/cad_breadloaf_magnet.svg"
     )
 )]
 #[cfg_attr(

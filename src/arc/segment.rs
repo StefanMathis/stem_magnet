@@ -36,13 +36,13 @@ mounted.
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Arc segment magnet definitions][drawing_arc_segment_magnet]"
+    doc = "![Arc segment magnet definitions][cad_arc_segment_magnet]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_segment_magnet",
-        "docs/img/drawing_arc_segment_magnet.svg"
+        "cad_arc_segment_magnet",
+        "docs/img/cad_arc_segment_magnet.svg"
     )
 )]
 #[cfg_attr(
@@ -79,13 +79,13 @@ image:
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Magnet form dependence on radius][drawing_arc_segment_magnet_pos_neg_radii]"
+    doc = "![Magnet form dependence on radius][cad_arc_segment_magnet_pos_neg_radii]"
 )]
 #[cfg_attr(
     feature = "doc-images",
     embed_doc_image::embed_doc_image(
-        "drawing_arc_segment_magnet_pos_neg_radii",
-        "docs/img/drawing_arc_segment_magnet_pos_neg_radii.svg"
+        "cad_arc_segment_magnet_pos_neg_radii",
+        "docs/img/cad_arc_segment_magnet_pos_neg_radii.svg"
     )
 )]
 #[cfg_attr(

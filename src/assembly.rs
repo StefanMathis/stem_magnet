@@ -37,14 +37,11 @@ constructors.
 #[doc = ""]
 #[cfg_attr(
     feature = "doc-images",
-    doc = "![Example of a magnet assembly with three tangentially repeated magnets][drawing_magnet_assembly]"
+    doc = "![Example of a magnet assembly with three tangentially repeated magnets][cad_magnet_assembly]"
 )]
 #[cfg_attr(
     feature = "doc-images",
-    embed_doc_image::embed_doc_image(
-        "drawing_magnet_assembly",
-        "docs/img/drawing_magnet_assembly.svg"
-    )
+    embed_doc_image::embed_doc_image("cad_magnet_assembly", "docs/img/cad_magnet_assembly.svg")
 )]
 #[cfg_attr(
     not(feature = "doc-images"),

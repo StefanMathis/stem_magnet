@@ -1,8 +1,8 @@
 /*!
 This module contains the [`Error`] enum, which represents the different ways
-building one of the predefined wires can fail due to invalid input data. The
+building one of the predefined magnets can fail due to invalid input data. The
 [`Error::Other`] variants supports arbitrary errors resulting from user-created
-wire types.
+magnet types.
 */
 
 use compare_variables::Comparison;

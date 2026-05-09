@@ -1,6 +1,6 @@
 [package]
 name = "stem_magnet"
-version = "0.2.3"
+version = "0.2.4"
 edition = "2024"
 description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
 readme = "README.md"
@@ -17,7 +17,6 @@ rayon = "1"
 serde_mosaic = { version = "0.2", optional = true, features = ["serde_yaml"] }
 deserialize_untagged_verbose_error = { version = "0.1", optional = true }
 serde = { version = "1", features = ["derive", "rc"], optional = true }
-cairo_viewport = { version = "0.2.4", optional = true}
 stem_material = { version = "0.3.3" }
 dyn-clone = "1"
 typetag = { version = "^0.2", optional = true }
@@ -26,7 +25,7 @@ embed-doc-image = { version = "0.1.4", optional = true }
 [features]
 default = []
 serde = ["dep:serde_mosaic", "dep:deserialize_untagged_verbose_error", "dep:serde", "dep:typetag", "stem_material/serde"]
-cairo = ["dep:cairo_viewport", "planar_geo/cairo"]
+cairo = ["planar_geo/cairo"]
 doc-images = ["dep:embed-doc-image"]
 
 [dev-dependencies]

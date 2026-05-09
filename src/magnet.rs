@@ -171,7 +171,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
      */
     fn shape(&self) -> Cow<'_, Shape>;
 
-    // ==============================================================================
+    // =========================================================================
 
     /**
     Returns the conductor material as a reference-counted [`Arc`].

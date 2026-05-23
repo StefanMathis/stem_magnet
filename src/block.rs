@@ -55,7 +55,7 @@ than half the `thickness` or `width` (`0 m <= fillet <= 0.5*thickness` and
     `cargo doc --features 'doc-images'` and Rust version >= 1.54."
 )]
 /**
-# Deserialization
+# Serialization and Deserialization
 
 The following example shows how a block magnet can be deserialized from these
 five fields:
@@ -72,7 +72,7 @@ fillet: 2 mm
 material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
-"}; // All other material fields are default
+"}; // All other material fields are set to their default values
 
 let magnet: BlockMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
@@ -84,13 +84,13 @@ assert_eq!(magnet.fillet().get::<meter>(), 0.002);
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 pub struct BlockMagnet {
     #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_quantity"))]
-    length: Length, // Magnet length (axial dimension)
+    length: Length,
     #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_quantity"))]
-    width: Length, // Magnet width (tangential dimension)
+    width: Length,
     #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_quantity"))]
-    thickness: Length, // Magnet thickness along the magnetization axis
+    thickness: Length,
     #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_quantity"))]
-    fillet: Length, // Edge fillets
+    fillet: Length,
     #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_arc_link"))]
     material: Arc<Material>,
     #[cfg_attr(feature = "serde", serde(skip))]

@@ -71,10 +71,7 @@ positive (`side_thickness > 0 m`).
 )]
 #[cfg_attr(
     feature = "doc-images",
-    embed_doc_image::embed_doc_image(
-        "cad_breadloaf_magnet",
-        "docs/img/cad_breadloaf_magnet.svg"
-    )
+    embed_doc_image::embed_doc_image("cad_breadloaf_magnet", "docs/img/cad_breadloaf_magnet.svg")
 )]
 #[cfg_attr(
     not(feature = "doc-images"),
@@ -91,7 +88,7 @@ The following constructors are available for this struct:
 magnet from `length`, `width`, side_thickness`, `center_thickness` and
 `material`.
 
-# Deserialization
+# Serialization and Deserialization
 
 For each of the aforementioned constructors, there exists a serialized
 representation:

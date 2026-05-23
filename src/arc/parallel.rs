@@ -387,7 +387,7 @@ constant thickness.
 of specifying the `air_gap_radius`, it is also possible to provide the
 `center_thickness` instead.
 
-# Deserialization
+# Serialization and Deserialization
 
 For each of the aforementioned constructors, there exists a serialized
 representation:

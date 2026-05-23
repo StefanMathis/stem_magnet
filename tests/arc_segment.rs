@@ -1,4 +1,7 @@
-use std::{f64::consts::PI, sync::Arc};
+use std::{
+    f64::consts::{FRAC_PI_2, PI},
+    sync::Arc,
+};
 
 use cairo_viewport::*;
 use planar_geo::prelude::*;
@@ -51,6 +54,114 @@ fn test_arc_segment_width() {
         )
         .unwrap();
         approx::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 110.0, epsilon = 0.00001);
+    }
+}
+
+#[test]
+fn test_magnetization_vector() {
+    {
+        let magnet = ArcSegmentMagnet::with_const_thickness(
+            Length::new::<millimeter>(165.0),
+            Length::new::<millimeter>(50.0),
+            Length::new::<millimeter>(10.0),
+            PI,
+            Arc::new(Material::default()),
+        )
+        .unwrap();
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(0.0),
+            Length::new::<millimeter>(0.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, FRAC_PI_2);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(0.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, FRAC_PI_2);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(5.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 1.4876, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(-5.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 1.6539, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(50.0),
+            Length::new::<millimeter>(-50.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 0.0, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(-50.0),
+            Length::new::<millimeter>(-50.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, PI, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+    }
+    {
+        let magnet = ArcSegmentMagnet::with_const_thickness(
+            Length::new::<millimeter>(165.0),
+            Length::new::<millimeter>(-50.0),
+            Length::new::<millimeter>(10.0),
+            PI,
+            Arc::new(Material::default()),
+        )
+        .unwrap();
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(0.0),
+            Length::new::<millimeter>(0.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, FRAC_PI_2);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(0.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, FRAC_PI_2);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(5.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 1.6539, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(-5.0),
+            Length::new::<millimeter>(10.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 1.4876, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(50.0),
+            Length::new::<millimeter>(-50.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, PI, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
+
+        let [angle, rel_remanence] = magnet.magnetization_vector([
+            Length::new::<millimeter>(-50.0),
+            Length::new::<millimeter>(-50.0),
+        ]);
+        approx::assert_abs_diff_eq!(angle, 0.0, epsilon = 1e-3);
+        assert_eq!(rel_remanence, 1.0);
     }
 }
 

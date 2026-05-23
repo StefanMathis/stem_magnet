@@ -11,6 +11,7 @@ docstring for more.
 use dyn_clone::DynClone;
 use planar_geo::prelude::*;
 use std::borrow::Cow;
+use std::f64::consts::FRAC_PI_2;
 use std::{any::Any, sync::Arc};
 use stem_material::prelude::*;
 
@@ -287,6 +288,114 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
         } else {
             return ElectricCurrent::new::<ampere>(0.0);
         }
+    }
+
+    /// Returns the magnetization vector at the specified point as [`angle,
+    /// rel_remanence`] in the magnet coordinate system.
+    ///
+    /// Depending on how the magnet was magnetized, its magnetization vector
+    /// may vary within its body. For example, the magnetization of a
+    /// [`BlockMagnet`](crate::block::BlockMagnet) might be parallel to the
+    /// y-axis, whereas the magnetization of an
+    /// [`ArcSegmentMagnet`](crate::arc::ArcSegmentMagnet) can be radially
+    /// oriented:
+    #[cfg_attr(
+        feature = "doc-images",
+        doc = "![Magnetization vector][cad_magnetization_vec]"
+    )]
+    #[cfg_attr(
+        feature = "doc-images",
+        embed_doc_image::embed_doc_image(
+            "cad_magnetization_vec",
+            "docs/img/cad_magnetization_vec.svg"
+        )
+    )]
+    #[cfg_attr(
+        not(feature = "doc-images"),
+        doc = "**Doc images not enabled**. Compile docs with
+        `cargo doc --features 'doc-images'` and Rust version >= 1.54."
+    )]
+    ///
+    /// This method returns the angle and the relative / normalized amplitude of
+    /// the magnetization vector at a given point inside the [`Magnet::shape`].
+    /// The point needs to be specified in the magnet coordinate system, see
+    /// the docstring of [`Magnet`]. If the point is outside the magnet, the
+    /// values returned by this function are meaningless. The absolute remanence
+    /// at the given point can be found by multiplying `rel_remanence` with the
+    /// [`Magnet::material`] remanence, therefore `rel_remanence` must be
+    /// between 0 and 1 for custom implementations of this method.
+    ///
+    /// The default implementation assumes that the magnetization is parallel
+    /// to the y-axis and uniform, hence it returns `[FRAC_2_PI, 1.0]` for any
+    /// input.
+    ///
+    /// # Examples
+    ///
+    /// ## Block magnet
+    ///
+    /// Magnetization vector angle is constant (default implementation).
+    ///
+    /// ```
+    /// use std::sync::Arc;
+    /// use std::f64::consts::FRAC_PI_2;
+    /// use stem_magnet::prelude::*;
+    ///
+    /// let magnet = BlockMagnet::new(
+    ///     Length::new::<millimeter>(165.0),
+    ///     Length::new::<millimeter>(20.0),
+    ///     Length::new::<millimeter>(10.0),
+    ///     Length::new::<millimeter>(0.0),
+    ///     Arc::new(Material::default()),
+    /// ).expect("valid parameters");
+    ///
+    /// let [angle, rel_remanence] = magnet.magnetization_vector([
+    ///     Length::new::<millimeter>(0.0),
+    ///     Length::new::<millimeter>(10.0),
+    /// ]);
+    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// assert_eq!(rel_remanence, 1.0);
+    ///
+    /// let [angle, rel_remanence] = magnet.magnetization_vector([
+    ///     Length::new::<millimeter>(-5.0),
+    ///     Length::new::<millimeter>(10.0),
+    /// ]);
+    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// assert_eq!(rel_remanence, 1.0);
+    /// ```
+    ///
+    /// ## Segment magnet
+    ///
+    /// Magnetization vector angle changes depending on the point
+    ///
+    /// ```
+    /// use std::sync::Arc;
+    /// use std::f64::consts::{FRAC_PI_2, PI};
+    /// use stem_magnet::prelude::*;
+    ///
+    /// let magnet = ArcSegmentMagnet::with_const_thickness(
+    ///     Length::new::<millimeter>(165.0),
+    ///     Length::new::<millimeter>(-50.0),
+    ///     Length::new::<millimeter>(10.0),
+    ///     PI,
+    ///     Arc::new(Material::default()),
+    /// ).expect("valid parameters");
+    ///
+    /// let [angle, rel_remanence] = magnet.magnetization_vector([
+    ///     Length::new::<millimeter>(0.0),
+    ///     Length::new::<millimeter>(10.0),
+    /// ]);
+    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// assert_eq!(rel_remanence, 1.0);
+    ///
+    /// let [angle, rel_remanence] = magnet.magnetization_vector([
+    ///     Length::new::<millimeter>(-5.0),
+    ///     Length::new::<millimeter>(10.0),
+    /// ]);
+    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2 - 0.0829, epsilon = 1e-3);
+    /// assert_eq!(rel_remanence, 1.0);
+    /// ```
+    fn magnetization_vector(&self, _: [Length; 2]) -> [f64; 2] {
+        return [FRAC_PI_2, 1.0];
     }
 
     /**

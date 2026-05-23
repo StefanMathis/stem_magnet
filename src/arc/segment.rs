@@ -20,10 +20,11 @@ use super::*;
 use crate::magnet::Magnet;
 
 /**
-A curved permanent magnet where the sides are radially oriented.
+A curved permanent magnet with radially oriented sides and magnetization.
 
 It is closely related to the [`ArcParallelMagnet`], which features parallel
-sides instead.
+sides instead. The magnetization is oriented along local radial direction,i.e.
+along the line passing through the origin and orthogonal to the core arc.
 
 # Geometry
 
@@ -533,6 +534,19 @@ impl Magnet for ArcSegmentMagnet {
 
     fn material_arc(&self) -> Arc<Material> {
         return self.material.clone();
+    }
+
+    fn magnetization_vector(&self, point: [Length; 2]) -> [f64; 2] {
+        // Calculate angle of point relative to the core radius origin
+        let cr = self.core_radius().get::<meter>();
+        let x = point[0].get::<meter>();
+        let y = point[1].get::<meter>();
+        let angle = if cr > 0.0 {
+            (y + cr).atan2(x)
+        } else {
+            (y - cr).atan2(-x)
+        };
+        return [angle, 1.0];
     }
 
     fn shape(&self) -> Cow<'_, Shape> {

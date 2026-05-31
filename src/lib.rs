@@ -46,9 +46,10 @@ pub const RED: planar_geo::draw::Color = planar_geo::draw::Color {
 
 pub mod prelude {
     /*!
-    This module reexports all wire types defined in stem_material, the
-    [`Magnet`] trait as well as the [`stem_material::prelude`]
-    module to simplify the usage of this crate.
+    This module reexports all wire types defined in this crate, the
+    [`Magnet`] trait as well as the
+    [`stem_material::prelude`](https://docs.rs/stem_material/latest/stem_material/prelude/index.html)
+    module.
      */
 
     pub use crate::arc::*;
@@ -58,5 +59,7 @@ pub mod prelude {
     pub use crate::magnet::Magnet;
     pub use stem_material;
 
+    // Prevent rustdoc from documenting the stem_material dependency
+    #[doc(hidden)]
     pub use stem_material::prelude::*;
 }

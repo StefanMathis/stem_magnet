@@ -1,6 +1,6 @@
 [package]
 name = "stem_magnet"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2024"
 description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
 readme = "README.md"
@@ -14,7 +14,7 @@ compare_variables = { version = "0.3.0", features = ["proc_macro"] }
 planar_geo = { version = "^0.4.4" }
 nalgebra = "0.32"
 rayon = "1"
-serde_mosaic = { version = "0.2", optional = true, features = ["serde_yaml"] }
+serde_mosaic = { version = "0.2", optional = true }
 deserialize_untagged_verbose_error = { version = "0.1", optional = true }
 serde = { version = "1", features = ["derive", "rc"], optional = true }
 stem_material = { version = "0.3.3" }
@@ -33,6 +33,7 @@ approx = { package = "approxim", version = "0.6" }
 indoc = "1.0"
 serde_yaml = "0.8"
 cairo_viewport = { version = "0.2", features = ["image-compare"]}
+serde_mosaic = { version = "0.2", features = ["serde_yaml"] }
 stem_magnet = { path = ".", features = ["serde", "cairo"] } # Solution from https://stackoverflow.com/questions/68618789/is-it-possible-to-enable-a-rust-feature-only-in-test to enable feature during integration test
 
 [package.metadata.docs.rs]

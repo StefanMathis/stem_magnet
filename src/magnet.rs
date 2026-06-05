@@ -546,16 +546,10 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     fn drawables(&self, split: bool, invert: bool) -> Vec<DrawableCow<'_>> {
         if split {
             let shapes = self.north_south_shapes();
-            let mut dark_green = Style::default();
-            dark_green.background_color = crate::DARK_GREEN;
-
-            let mut red = Style::default();
-            red.background_color = crate::RED;
-
             let styles = if invert {
-                [red, dark_green]
+                [crate::NORTH_POLE_STYLE, crate::SOUTH_POLE_STYLE]
             } else {
-                [dark_green, red]
+                [crate::SOUTH_POLE_STYLE, crate::NORTH_POLE_STYLE]
             };
 
             return shapes

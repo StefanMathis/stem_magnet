@@ -25,6 +25,8 @@ pub mod block;
 pub mod bread_loaf;
 pub mod error;
 pub mod magnet;
+pub use planar_geo;
+pub use stem_material;
 
 /// Color used for the south side when visualizing a magnet.
 #[cfg(feature = "cairo")]
@@ -35,6 +37,23 @@ pub const DARK_GREEN: planar_geo::draw::Color = planar_geo::draw::Color {
     a: 1.0,
 };
 
+/// Default style for the "south" pole of a magnet.
+#[cfg(feature = "cairo")]
+pub const SOUTH_POLE_STYLE: planar_geo::draw::Style = planar_geo::draw::Style {
+    line_color: planar_geo::draw::Color {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 1.0,
+    },
+    background_color: DARK_GREEN,
+    line_width: 0.5,
+    line_style: planar_geo::draw::LineStyle::Solid,
+    line_cap: planar_geo::draw::LineCap::Round,
+    line_join: planar_geo::draw::LineJoin::Miter,
+    text: None,
+};
+
 /// Color used for the north side when visualizing a magnet.
 #[cfg(feature = "cairo")]
 pub const RED: planar_geo::draw::Color = planar_geo::draw::Color {
@@ -42,6 +61,23 @@ pub const RED: planar_geo::draw::Color = planar_geo::draw::Color {
     g: 0.0,
     b: 0.0,
     a: 1.0,
+};
+
+/// Default style for the "north" pole of a magnet.
+#[cfg(feature = "cairo")]
+pub const NORTH_POLE_STYLE: planar_geo::draw::Style = planar_geo::draw::Style {
+    line_color: planar_geo::draw::Color {
+        r: 0.0,
+        g: 0.0,
+        b: 0.0,
+        a: 1.0,
+    },
+    background_color: RED,
+    line_width: 0.5,
+    line_style: planar_geo::draw::LineStyle::Solid,
+    line_cap: planar_geo::draw::LineCap::Round,
+    line_join: planar_geo::draw::LineJoin::Miter,
+    text: None,
 };
 
 pub mod prelude {
@@ -57,6 +93,7 @@ pub mod prelude {
     pub use crate::block::BlockMagnet;
     pub use crate::bread_loaf::BreadLoafMagnet;
     pub use crate::magnet::Magnet;
+    pub use planar_geo;
     pub use stem_material;
 
     // Prevent rustdoc from documenting the stem_material dependency

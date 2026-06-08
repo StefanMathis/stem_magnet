@@ -3,7 +3,11 @@ This module defines an [`ArcSegmentMagnet`] - a curved magnet where the magnet
 sides are radially oriented. See the struct documentation for more.
  */
 
-use std::{borrow::Cow, f64::consts::FRAC_PI_2, sync::Arc};
+use std::{
+    borrow::Cow,
+    f64::consts::{FRAC_PI_2, PI},
+    sync::Arc,
+};
 use stem_material::prelude::*;
 
 #[cfg(feature = "serde")]
@@ -288,6 +292,9 @@ impl ArcSegmentMagnet {
     ) -> Result<Self, crate::error::Error> {
         let zero = Length::new::<meter>(0.0);
         compare_variables!(val zero < length)?;
+        compare_variables!(val zero <= side_thickness)?;
+        compare_variables!(val zero != air_gap_radius)?;
+        compare_variables!(0.0 < angle <= PI)?;
 
         let mut offset = [side_thickness.get::<meter>(), 0.0];
         offset.rotate([0.0, 0.0], FRAC_PI_2 - 0.5 * angle);

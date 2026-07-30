@@ -160,9 +160,6 @@ impl BlockMagnet {
         let xmax = -xmin;
         let ymin = 0.0;
         let ymax = thickness.get::<meter>();
-
-        let e = DEFAULT_EPSILON;
-        let m = DEFAULT_MAX_ULPS;
         let f = fillet.get::<meter>();
 
         // Create shape
@@ -187,13 +184,13 @@ impl BlockMagnet {
             (shape, north_shape, south_shape)
         } else {
             let mut polysegment = Polysegment::new();
-            let a_lr = ArcSegment::fillet([xmax, ymax], [xmax, ymin], [xmin, ymin], f, e, m)?;
+            let a_lr = ArcSegment::fillet([xmax, ymax], [xmax, ymin], [xmin, ymin], f)?;
             polysegment.push_back(a_lr.clone().into());
-            let a_ll = ArcSegment::fillet([xmax, ymin], [xmin, ymin], [xmin, ymax], f, e, m)?;
+            let a_ll = ArcSegment::fillet([xmax, ymin], [xmin, ymin], [xmin, ymax], f)?;
             polysegment.push_back(a_ll.clone().into());
-            let a_ul = ArcSegment::fillet([xmin, ymin], [xmin, ymax], [xmax, ymax], f, e, m)?;
+            let a_ul = ArcSegment::fillet([xmin, ymin], [xmin, ymax], [xmax, ymax], f)?;
             polysegment.push_back(a_ul.clone().into());
-            let a_ur = ArcSegment::fillet([xmin, ymax], [xmax, ymax], [xmax, ymin], f, e, m)?;
+            let a_ur = ArcSegment::fillet([xmin, ymax], [xmax, ymax], [xmax, ymin], f)?;
             polysegment.push_back(a_ur.clone().into());
             let shape = Shape::new(vec![polysegment.into()])?;
 

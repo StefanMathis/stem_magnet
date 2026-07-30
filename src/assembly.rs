@@ -176,10 +176,10 @@ impl MagnetAssembly {
         Arc::new(Default::default()),
     ).expect("valid inputs");
     let assembly = MagnetAssembly::new(magnet, 2.try_into().unwrap(), 3.try_into().unwrap());
-    assert_eq!(assembly.number_magnets(), 6);
+    assert_eq!(assembly.num_magnets(), 6);
     ```
      */
-    pub fn number_magnets(&self) -> usize {
+    pub fn num_magnets(&self) -> usize {
         return self.num_axial * self.num_tangential;
     }
 
@@ -241,7 +241,7 @@ impl MagnetAssembly {
     Returns the total volume of the assembly.
 
     This is the product of `self.magnet().volume()` and
-    [`MagnetAssembly::number_magnets`].
+    [`MagnetAssembly::num_magnets`].
 
     # Examples
 
@@ -261,14 +261,14 @@ impl MagnetAssembly {
     ```
      */
     pub fn volume(&self) -> Volume {
-        return self.magnet().volume() * self.number_magnets() as f64;
+        return self.magnet().volume() * self.num_magnets() as f64;
     }
 
     /**
     Returns the total mass of the assembly.
 
     This is the product of `self.magnet().mass()` and
-    [`MagnetAssembly::number_magnets`].
+    [`MagnetAssembly::num_magnets`].
 
     # Examples
 
@@ -288,14 +288,14 @@ impl MagnetAssembly {
     ```
      */
     pub fn mass(&self) -> Mass {
-        return self.magnet().mass() * self.number_magnets() as f64;
+        return self.magnet().mass() * self.num_magnets() as f64;
     }
 
     /**
     Returns the total magnetomotive force created by the assembly.
 
     This is the product of `self.magnet().magnetomotive()` and
-    [`MagnetAssembly::number_magnets`].
+    [`MagnetAssembly::num_magnets`].
 
     # Examples
 
@@ -324,7 +324,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn magnetomotive_force(&self, conditions: &[DynQuantity<f64>]) -> ElectricCurrent {
-        return self.magnet().magnetomotive_force(conditions) * self.number_magnets() as f64;
+        return self.magnet().magnetomotive_force(conditions) * self.num_magnets() as f64;
     }
 }
 

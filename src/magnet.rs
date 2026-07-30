@@ -175,6 +175,15 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     // =========================================================================
 
     /**
+    Returns the mean height of the magnet along its magnetization axis.
+
+    This is an alias for [`Magnet::thickness`], see its documentation for more.
+     */
+    fn height(&self) -> Length {
+        return self.thickness();
+    }
+
+    /**
     Returns the conductor material as a reference-counted [`Arc`].
 
     The default implementation clones the underlying [`Material`]
@@ -444,7 +453,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
         let cutted: Vec<Polysegment> =
             shape
                 .contour()
-                .intersection_cut(&cut_line, DEFAULT_EPSILON, DEFAULT_MAX_ULPS);
+                .intersection_cut(&cut_line, DEFAULT_EPSILON, DEFAULT_MAX_RELATIVE);
         if cutted.len() == 2 {
             let mut it = cutted.into_iter();
             let north_chain = it.next().expect("has two elements");

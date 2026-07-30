@@ -309,11 +309,8 @@ impl BreadLoafMagnet {
         compare_variables!(val zero <= center_thickness)?;
 
         // Create shape
-        let e = DEFAULT_EPSILON;
-        let m = DEFAULT_MAX_ULPS;
-
         let mut polysegment = Polysegment::with_capacity(5);
-        let line = LineSegment::new([0.0, 0.0], [0.5 * width.get::<meter>(), 0.0], e, m)?;
+        let line = LineSegment::new([0.0, 0.0], [0.5 * width.get::<meter>(), 0.0])?;
         polysegment.push_back(line.into());
         polysegment.extend_back([0.5 * width.get::<meter>(), side_thickness.get::<meter>()]);
 
@@ -321,8 +318,6 @@ impl BreadLoafMagnet {
             [0.5 * width.get::<meter>(), side_thickness.get::<meter>()],
             [0.0, center_thickness.get::<meter>()],
             [-0.5 * width.get::<meter>(), side_thickness.get::<meter>()],
-            e,
-            m,
         )?;
 
         let radius = radius.unwrap_or_else(|| {
@@ -344,7 +339,10 @@ impl BreadLoafMagnet {
         let c = shape.centroid()[1];
         let cut =
             Polysegment::from_points(&[[-width.get::<meter>(), c], [width.get::<meter>(), c]]);
-        let mut chains = shape.contour().intersection_cut(&cut, e, m);
+        let mut chains =
+            shape
+                .contour()
+                .intersection_cut(&cut, DEFAULT_EPSILON, DEFAULT_MAX_RELATIVE);
         let number_north_south_chains = chains.len();
 
         compare_variables!(number_north_south_chains == 2)?;

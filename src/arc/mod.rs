@@ -36,22 +36,17 @@ fn core_and_air_gap_from_air_gap_arc_radius(
     compare_variables!(val zero != core_radius)?;
     compare_variables!(val zero != air_gap_radius)?;
 
-    let e = DEFAULT_EPSILON;
-    let m = DEFAULT_MAX_ULPS;
-
     let start_angle = if core_radius.is_sign_positive() {
         FRAC_PI_2 - 0.5 * angle
     } else {
         3.0 * FRAC_PI_2 - 0.5 * angle
     };
 
-    let core_arc = ArcSegment::from_center_radius_start_offset_angle(
+    let core_arc = ArcSegment::from_center_radius_start_sweep_angle(
         [0.0, 0.0],
         core_radius.get::<meter>().abs(),
         start_angle,
         angle,
-        e,
-        m,
     )?;
 
     let air_gap_arc_start = [
@@ -75,8 +70,6 @@ fn core_and_air_gap_from_air_gap_arc_radius(
         air_gap_radius.get::<meter>().abs(),
         positive,
         false,
-        e,
-        m,
     )?;
 
     return Ok([core_arc, air_gap_arc]);
@@ -92,22 +85,17 @@ fn core_and_air_gap_arc_from_center_thickness(
     let zero = Length::new::<meter>(0.0);
     compare_variables!(val zero < center_thickness)?;
 
-    let e = DEFAULT_EPSILON;
-    let m = DEFAULT_MAX_ULPS;
-
     let start_angle = if core_radius.is_sign_positive() {
         FRAC_PI_2 - 0.5 * angle
     } else {
         3.0 * FRAC_PI_2 - 0.5 * angle
     };
 
-    let core_arc = ArcSegment::from_center_radius_start_offset_angle(
+    let core_arc = ArcSegment::from_center_radius_start_sweep_angle(
         [0.0, 0.0],
         core_radius.get::<meter>().abs(),
         start_angle,
         angle,
-        e,
-        m,
     )?;
 
     let ag_end_pt_height = core_arc.stop()[1] + offset[1];
@@ -119,8 +107,6 @@ fn core_and_air_gap_arc_from_center_thickness(
         air_gap_arc_start,
         [0.0, (core_radius + center_thickness).get::<meter>()],
         air_gap_arc_stop,
-        e,
-        m,
     )?;
     return Ok([core_arc, air_gap_arc]);
 }
@@ -158,13 +144,8 @@ fn shapes(
 
     let halfway_height = air_gap_arc.segment_point(0.5)[1];
     let middle = [0.0, halfway_height * 0.5];
-    let mut mean_gap_arc = ArcSegment::from_start_middle_stop(
-        arc_mean_start,
-        middle,
-        arc_mean_stop,
-        DEFAULT_EPSILON,
-        DEFAULT_MAX_ULPS,
-    )?;
+    let mut mean_gap_arc =
+        ArcSegment::from_start_middle_stop(arc_mean_start, middle, arc_mean_stop)?;
     let polysegment =
         Polysegment::from_iter([core_arc.into(), mean_gap_arc.clone().into()].into_iter());
     let north_shape = Shape::from_outer(polysegment.into())?;

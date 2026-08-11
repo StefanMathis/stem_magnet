@@ -1,6 +1,6 @@
 [package]
 name = "stem_magnet"
-version = "0.2.9"
+version = "0.2.10"
 edition = "2024"
 description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
 readme = "README.md"
@@ -11,7 +11,7 @@ repository = "https://github.com/StefanMathis/stem_magnet.git"
 
 [dependencies]
 compare_variables = { version = "0.3.0", features = ["proc_macro"] }
-planar_geo = { version = "0.5" }
+planar_geo = { version = "0.5.1" }
 rayon = "1"
 serde_mosaic = { version = "0.2", optional = true }
 deserialize_untagged_verbose_error = { version = "0.1", optional = true }

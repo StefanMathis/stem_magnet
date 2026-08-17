@@ -78,14 +78,14 @@ impl AngleOrWidth {
 
     ```
     use std::f64::consts::PI;
-    use approx;
+    use approxim;
     use stem_magnet::prelude::*;
 
     let w = AngleOrWidth::Angle(PI).width(Length::new::<meter>(1.0));
-    approx::assert_abs_diff_eq!(w.get::<meter>(), 2.0);
+    approxim::assert_abs_diff_eq!(w.get::<meter>(), 2.0);
 
     let w = AngleOrWidth::Width(Length::new::<meter>(2.0)).width(Length::new::<meter>(1.0));
-    approx::assert_abs_diff_eq!(w.get::<meter>(), 2.0);
+    approxim::assert_abs_diff_eq!(w.get::<meter>(), 2.0);
     ```
      */
     pub fn width(&self, radius: Length) -> Length {
@@ -106,14 +106,14 @@ impl AngleOrWidth {
 
     ```
     use std::f64::consts::PI;
-    use approx;
+    use approxim;
     use stem_magnet::prelude::*;
 
     let a = AngleOrWidth::Angle(PI).angle(Length::new::<meter>(1.0));
-    approx::assert_abs_diff_eq!(a, PI);
+    approxim::assert_abs_diff_eq!(a, PI);
 
     let a = AngleOrWidth::Width(Length::new::<meter>(2.0)).angle(Length::new::<meter>(1.0));
-    approx::assert_abs_diff_eq!(a, PI);
+    approxim::assert_abs_diff_eq!(a, PI);
     ```
      */
     pub fn angle(&self, radius: Length) -> f64 {
@@ -194,21 +194,21 @@ impl SideHeightOrThickness {
 
     ```
     use std::f64::consts::PI;
-    use approx;
+    use approxim;
     use stem_magnet::prelude::*;
 
     let r = Length::new::<meter>(1.0);
     let w = AngleOrWidth::Width(Length::new::<meter>(0.1));
 
     let h = SideHeightOrThickness::Height(Length::new::<meter>(0.1)).height(r, w);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 0.1);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 0.1);
 
     let h = SideHeightOrThickness::Thickness(Length::new::<meter>(0.1)).height(r, w);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 0.10011, epsilon=1e-3);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 0.10011, epsilon=1e-3);
 
     // Negative radius
     let h = SideHeightOrThickness::Thickness(Length::new::<meter>(0.1)).height(-r, w);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 0.10011, epsilon=1e-3);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 0.10011, epsilon=1e-3);
     ```
      */
     pub fn height(&self, core_radius: Length, angle_or_width: AngleOrWidth) -> Length {
@@ -238,21 +238,21 @@ impl SideHeightOrThickness {
 
     ```
     use std::f64::consts::PI;
-    use approx;
+    use approxim;
     use stem_magnet::prelude::*;
 
     let r = Length::new::<meter>(1.0);
     let a = AngleOrWidth::Angle(PI);
 
     let h = SideHeightOrThickness::Height(Length::new::<meter>(3.0f64.sqrt())).thickness(r, a);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
 
     let h = SideHeightOrThickness::Thickness(Length::new::<meter>(1.0)).thickness(r, a);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
 
     // Negative radius
     let h = SideHeightOrThickness::Height(Length::new::<meter>(3.0f64.sqrt())).thickness(-r, a);
-    approx::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
+    approxim::assert_abs_diff_eq!(h.get::<meter>(), 1.0);
     ```
      */
     pub fn thickness(&self, core_radius: Length, angle_or_width: AngleOrWidth) -> Length {
@@ -396,8 +396,8 @@ representation:
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -409,17 +409,17 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 484.300, epsilon = 1e-3);
+let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 484.300, epsilon = 1e-3);
 ```
 
 ## `with_const_thickness`
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -430,17 +430,17 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 507.533, epsilon = 1e-3);
+let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 507.533, epsilon = 1e-3);
 ```
 
 ## `with_center_thickness`
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -452,9 +452,9 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.08, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 499.999, epsilon = 1e-3);
+let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.08, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 499.999, epsilon = 1e-3);
 ```
 */
 #[derive(Debug, Clone)]
@@ -597,7 +597,7 @@ impl ArcParallelMagnet {
         1.0.into(),
         Arc::new(Material::default()),
     ).expect("valid inputs");
-    approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.06, epsilon = 1e-3);
+    approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.06, epsilon = 1e-3);
 
     // Outer rotor magnet
     let magnet = ArcParallelMagnet::with_const_thickness(
@@ -607,7 +607,7 @@ impl ArcParallelMagnet {
         1.0.into(),
         Arc::new(Material::default()),
     ).expect("valid inputs");
-    approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), -0.05, epsilon = 1e-3);
+    approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), -0.05, epsilon = 1e-3);
     ```
     */
     pub fn with_const_thickness(
@@ -667,9 +667,9 @@ impl ArcParallelMagnet {
     ///     (PI / 6.0).into(),
     ///     Arc::new(Material::default()),
     /// ).expect("valid inputs");
-    /// approx::assert_abs_diff_eq!(magnet.side_thickness().get::<meter>(), 0.97073, epsilon = 1e-3);
-    /// approx::assert_abs_diff_eq!(magnet.thickness().get::<meter>(), 0.8853, epsilon = 1e-3);
-    /// approx::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.8, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.side_thickness().get::<meter>(), 0.97073, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.thickness().get::<meter>(), 0.8853, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.8, epsilon = 1e-3);
     ///
     /// // The arcs of this magnet would curve into each other
     /// assert!(ArcParallelMagnet::with_center_thickness(

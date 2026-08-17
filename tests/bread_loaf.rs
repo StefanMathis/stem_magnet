@@ -25,7 +25,7 @@ fn ferrite() -> Material {
     thermal_conductivity: 4.0 W / m / K # https://www.bomatec.com/wp-content/uploads/2021/12/BMHFa-3227.pdf
     "};
 
-    return serde_yaml::from_str(&str).expect("valid material");
+    return yaml_serde::from_str(&str).expect("valid material");
 }
 
 #[test]
@@ -99,38 +99,38 @@ fn test_properties_convex() {
     )
     .unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.arc_segment_height().get::<millimeter>(),
         1.0102,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.center_thickness().get::<millimeter>(),
         11.010,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.thickness().get::<millimeter>(),
         10.505,
         epsilon = 0.001
     );
 
-    approx::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
+    approxim::assert_abs_diff_eq!(
         magnet.volume().get::<cubic_meter>(),
         3.522698e-5,
         epsilon = 1e-9
     );
-    approx::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1761, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1761, epsilon = 0.001);
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet
             .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()])
             .get::<ampere>(),
         3423.494,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet
             .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(120.0).into()])
             .get::<ampere>(),
@@ -152,38 +152,38 @@ fn test_properties_concave() {
     )
     .unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.arc_segment_height().get::<millimeter>(),
         -1.0102,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.center_thickness().get::<millimeter>(),
         8.989,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.thickness().get::<millimeter>(),
         9.4948,
         epsilon = 0.001
     );
 
-    approx::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
+    approxim::assert_abs_diff_eq!(
         magnet.volume().get::<cubic_meter>(),
         3.0773019e-5,
         epsilon = 1e-9
     );
-    approx::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1538, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1538, epsilon = 0.001);
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet
             .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()])
             .get::<ampere>(),
         3094.279,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet
             .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(120.0).into()])
             .get::<ampere>(),

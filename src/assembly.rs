@@ -58,9 +58,9 @@ To deserialize a [`MagnetAssembly`], the fields `magnet`, `num_axial` and
 [`new`](MagnetAssembly::new)) constructor. The latter two fields must not be
 zero.
 ```
-use approx;
+use approxim;
 use stem_magnet::prelude::*;
-use serde_yaml;
+use yaml_serde;
 
 let str = indoc::indoc! {"
 magnet:
@@ -76,7 +76,7 @@ num_axial: 2
 num_tangential: 3
 "};
 
-let assembly: MagnetAssembly = serde_yaml::from_str(&str).expect("valid dimensions");
+let assembly: MagnetAssembly = yaml_serde::from_str(&str).expect("valid dimensions");
 assert_eq!(assembly.length().get::<millimeter>(), 200.0);
 
 // Number of axial magnets must not be zero!
@@ -93,7 +93,7 @@ magnet:
 num_axial: 0
 num_tangential: 3
 "};
-assert!(serde_yaml::from_str::<MagnetAssembly>(&str).is_err());
+assert!(yaml_serde::from_str::<MagnetAssembly>(&str).is_err());
 ```
  */
 #[derive(Debug)]
@@ -300,7 +300,7 @@ impl MagnetAssembly {
     # Examples
 
     ```
-    use approx::assert_abs_diff_eq;
+    use approxim::assert_abs_diff_eq;
     use stem_magnet::prelude::*;
     use std::sync::Arc;
 

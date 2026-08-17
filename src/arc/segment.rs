@@ -143,8 +143,8 @@ representation. The following examples all result in the same magnet:
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -156,17 +156,17 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+let magnet: ArcSegmentMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
 ```
 
 ## `with_const_thickness`
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -177,17 +177,17 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+let magnet: ArcSegmentMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
 ```
 
 ## `with_center_thickness`
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
-use approx;
+use yaml_serde;
+use approxim;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -199,9 +199,9 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
-approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
-approx::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+let magnet: ArcSegmentMagnet = yaml_serde::from_str(str).expect("valid magnet");
+approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
+approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
 ```
 */
 #[derive(Debug, Clone)]
@@ -344,7 +344,7 @@ impl ArcSegmentMagnet {
         1.0,
         Arc::new(Material::default()),
     ).expect("valid inputs");
-    approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.06, epsilon = 1e-3);
+    approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.06, epsilon = 1e-3);
 
     // Outer rotor magnet
     let magnet = ArcSegmentMagnet::with_const_thickness(
@@ -354,7 +354,7 @@ impl ArcSegmentMagnet {
         1.0,
         Arc::new(Material::default()),
     ).expect("valid inputs");
-    approx::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), -0.05, epsilon = 1e-3);
+    approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), -0.05, epsilon = 1e-3);
     ```
     */
     pub fn with_const_thickness(
@@ -412,9 +412,9 @@ impl ArcSegmentMagnet {
     ///     PI / 6.0,
     ///     Arc::new(Material::default()),
     /// ).expect("valid inputs");
-    /// approx::assert_abs_diff_eq!(magnet.side_thickness().get::<meter>(), 1.0, epsilon = 1e-3);
-    /// approx::assert_abs_diff_eq!(magnet.thickness().get::<meter>(), 0.9, epsilon = 1e-3);
-    /// approx::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.8, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.side_thickness().get::<meter>(), 1.0, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.thickness().get::<meter>(), 0.9, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.8, epsilon = 1e-3);
     ///
     /// // The arcs of this magnet would curve into each other
     /// assert!(ArcSegmentMagnet::with_center_thickness(

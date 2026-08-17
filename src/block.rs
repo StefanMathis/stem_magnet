@@ -62,7 +62,7 @@ five fields:
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
+use yaml_serde;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -74,7 +74,7 @@ material:
     relative_permeability: 1.05
 "}; // All other material fields are set to their default values
 
-let magnet: BlockMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
+let magnet: BlockMagnet = yaml_serde::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 assert_eq!(magnet.fillet().get::<meter>(), 0.002);
 ```

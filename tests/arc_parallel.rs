@@ -28,31 +28,31 @@ fn ferrite() -> Material {
     thermal_conductivity: 4.0 W / m / K # https://www.bomatec.com/wp-content/uploads/2021/12/BMHFa-3227.pdf
     "};
 
-    return serde_yaml::from_str(&str).expect("valid material");
+    return yaml_serde::from_str(&str).expect("valid material");
 }
 
 #[test]
 fn test_angle_and_width() {
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         AngleOrWidth::Width(Length::new::<millimeter>(50.0) * SQRT_2)
             .width(Length::new::<millimeter>(50.0))
             .get::<millimeter>(),
         50.0 * SQRT_2,
         epsilon = 0.00001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         AngleOrWidth::Angle(0.5 * PI)
             .width(Length::new::<millimeter>(50.0))
             .get::<millimeter>(),
         50.0 * SQRT_2,
         epsilon = 0.00001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         AngleOrWidth::Angle(0.5 * PI).angle(Length::new::<millimeter>(50.0)),
         0.5 * PI,
         epsilon = 0.00001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         AngleOrWidth::Width(Length::new::<millimeter>(50.0) * SQRT_2)
             .angle(Length::new::<millimeter>(50.0)),
         0.5 * PI,
@@ -63,7 +63,7 @@ fn test_angle_and_width() {
     let angle = PI / 6.0;
     let radius = Length::new::<millimeter>(50.0);
     let width = AngleOrWidth::Angle(angle).width(radius);
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         AngleOrWidth::Width(width).angle(radius),
         angle,
         epsilon = 0.00001
@@ -72,7 +72,7 @@ fn test_angle_and_width() {
 
 #[test]
 fn test_side_and_thickness() {
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         SideHeightOrThickness::Height(Length::new::<millimeter>(10.0))
             .height(
                 Length::new::<millimeter>(50.0),
@@ -82,7 +82,7 @@ fn test_side_and_thickness() {
         10.0,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         SideHeightOrThickness::Thickness(Length::new::<millimeter>(7.50744))
             .height(
                 Length::new::<millimeter>(50.0),
@@ -92,7 +92,7 @@ fn test_side_and_thickness() {
         10.0,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         SideHeightOrThickness::Height(Length::new::<millimeter>(10.0))
             .thickness(
                 Length::new::<millimeter>(50.0),
@@ -102,7 +102,7 @@ fn test_side_and_thickness() {
         7.50744,
         epsilon = 0.001
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         SideHeightOrThickness::Thickness(Length::new::<millimeter>(7.50744))
             .thickness(
                 Length::new::<millimeter>(50.0),
@@ -118,7 +118,7 @@ fn test_side_and_thickness() {
     let radius = Length::new::<millimeter>(50.0);
     let thickness = SideHeightOrThickness::Height(side_height)
         .thickness(radius, Length::new::<millimeter>(30.0).into());
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         SideHeightOrThickness::Thickness(thickness)
             .height(radius, Length::new::<millimeter>(30.0).into())
             .get::<millimeter>(),
@@ -139,7 +139,7 @@ fn test_side_and_thickness() {
             Length::new::<millimeter>(30.0).into(),
         )
         .get::<millimeter>();
-    approx::assert_abs_diff_eq!(h_pos, h_neg, epsilon = 1e-12);
+    approxim::assert_abs_diff_eq!(h_pos, h_neg, epsilon = 1e-12);
 
     let t_pos = SideHeightOrThickness::Height(Length::new::<millimeter>(h_pos))
         .thickness(
@@ -153,7 +153,7 @@ fn test_side_and_thickness() {
             Length::new::<millimeter>(30.0).into(),
         )
         .get::<millimeter>();
-    approx::assert_abs_diff_eq!(t_pos, t_neg, epsilon = 1e-12);
+    approxim::assert_abs_diff_eq!(t_pos, t_neg, epsilon = 1e-12);
 }
 
 #[test]
@@ -167,7 +167,7 @@ fn test_arc_parallel_width() {
             Arc::new(Material::default()),
         )
         .unwrap();
-        approx::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
+        approxim::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
     }
     {
         let magnet = ArcParallelMagnet::with_const_thickness(
@@ -178,7 +178,7 @@ fn test_arc_parallel_width() {
             Arc::new(Material::default()),
         )
         .unwrap();
-        approx::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
+        approxim::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
     }
     {
         let magnet = ArcParallelMagnet::with_const_thickness(
@@ -189,7 +189,7 @@ fn test_arc_parallel_width() {
             Arc::new(Material::default()),
         )
         .unwrap();
-        approx::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
+        approxim::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
     }
     {
         let magnet = ArcParallelMagnet::with_const_thickness(
@@ -200,7 +200,7 @@ fn test_arc_parallel_width() {
             Arc::new(Material::default()),
         )
         .unwrap();
-        approx::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
+        approxim::assert_abs_diff_eq!(magnet.width().get::<millimeter>(), 100.0, epsilon = 0.00001);
     }
 }
 
@@ -241,81 +241,81 @@ fn test_compare_constructors_const_thickness_inner() {
     )
     .unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         side_height.get::<meter>(),
         mag_new.side_height().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_height().get::<meter>(),
         mag_with_const_thickness.side_height().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_height().get::<meter>(),
         mag_with_center_thickness.side_height().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         0.06,
         epsilon = 1e-12
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         mag_with_const_thickness.air_gap_radius().get::<meter>(),
         epsilon = 1e-12,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         mag_with_center_thickness.air_gap_radius().get::<meter>(),
         epsilon = 1e-12,
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         0.01,
         epsilon = 1e-3
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         mag_with_const_thickness.center_thickness().get::<meter>(),
         epsilon = 1e-3,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         mag_with_center_thickness.center_thickness().get::<meter>(),
         epsilon = 1e-3,
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_thickness().get::<meter>(),
         0.01,
         epsilon = 1e-3
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_thickness().get::<meter>(),
         mag_with_const_thickness.side_thickness().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_thickness().get::<meter>(),
         mag_with_center_thickness.side_thickness().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(mag_new.thickness().get::<meter>(), 0.01, epsilon = 1e-3);
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(mag_new.thickness().get::<meter>(), 0.01, epsilon = 1e-3);
+    approxim::assert_abs_diff_eq!(
         mag_new.thickness().get::<meter>(),
         mag_with_const_thickness.thickness().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.thickness().get::<meter>(),
         mag_with_center_thickness.thickness().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.area().get::<square_meter>(),
         mag_with_const_thickness.area().get::<square_meter>(),
         epsilon = 1e-3,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.area().get::<square_meter>(),
         mag_with_center_thickness.area().get::<square_meter>(),
         epsilon = 1e-3,
@@ -359,77 +359,77 @@ fn test_compare_constructors_const_thickness_outer() {
     )
     .unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         side_height.get::<meter>(),
         mag_new.side_height().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_height().get::<meter>(),
         mag_with_const_thickness.side_height().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_height().get::<meter>(),
         mag_with_center_thickness.side_height().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         -0.05,
         epsilon = 1e-12
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         mag_with_const_thickness.air_gap_radius().get::<meter>(),
         epsilon = 1e-12,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.air_gap_radius().get::<meter>(),
         mag_with_center_thickness.air_gap_radius().get::<meter>(),
         epsilon = 1e-12,
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         0.01,
         epsilon = 1e-3
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         mag_with_const_thickness.center_thickness().get::<meter>(),
         epsilon = 1e-3,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.center_thickness().get::<meter>(),
         mag_with_center_thickness.center_thickness().get::<meter>(),
         epsilon = 1e-3,
     );
 
-    approx::assert_abs_diff_eq!(mag_new.side_thickness().get::<meter>(), 0.01);
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(mag_new.side_thickness().get::<meter>(), 0.01);
+    approxim::assert_abs_diff_eq!(
         mag_new.side_thickness().get::<meter>(),
         mag_with_const_thickness.side_thickness().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.side_thickness().get::<meter>(),
         mag_with_center_thickness.side_thickness().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(mag_new.thickness().get::<meter>(), 0.01);
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(mag_new.thickness().get::<meter>(), 0.01);
+    approxim::assert_abs_diff_eq!(
         mag_new.thickness().get::<meter>(),
         mag_with_const_thickness.thickness().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.thickness().get::<meter>(),
         mag_with_center_thickness.thickness().get::<meter>(),
     );
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.area().get::<square_meter>(),
         mag_with_const_thickness.area().get::<square_meter>(),
         epsilon = 1e-3,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         mag_new.area().get::<square_meter>(),
         mag_with_center_thickness.area().get::<square_meter>(),
         epsilon = 1e-3,
@@ -456,7 +456,7 @@ fn test_comparable_block_magnet() {
     )
     .unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         arc_magnet
             .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(120.0).into()])
             .get::<ampere>(),
@@ -973,23 +973,23 @@ fn serialize_and_deserialize() {
     )
     .unwrap();
 
-    let string = serde_yaml::to_string(&magnet).unwrap();
-    let de_magnet: ArcParallelMagnet = serde_yaml::from_str(&string).unwrap();
+    let string = yaml_serde::to_string(&magnet).unwrap();
+    let de_magnet: ArcParallelMagnet = yaml_serde::from_str(&string).unwrap();
 
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.air_gap_radius().get::<meter>(),
         de_magnet.air_gap_radius().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.center_thickness().get::<meter>(),
         de_magnet.center_thickness().get::<meter>(),
         epsilon = 1e-3,
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.thickness().get::<meter>(),
         de_magnet.thickness().get::<meter>(),
     );
-    approx::assert_abs_diff_eq!(
+    approxim::assert_abs_diff_eq!(
         magnet.area().get::<square_meter>(),
         de_magnet.area().get::<square_meter>(),
         epsilon = 1e-3,
@@ -1009,9 +1009,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             440.993,
             epsilon = 1e-3
@@ -1028,9 +1028,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             424.081,
             epsilon = 1e-3
@@ -1046,9 +1046,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             405.657,
             epsilon = 1e-3
@@ -1064,9 +1064,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             392.396,
             epsilon = 1e-3
@@ -1082,9 +1082,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             418.334,
             epsilon = 1e-3
@@ -1100,9 +1100,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             403.799,
             epsilon = 1e-3
@@ -1119,9 +1119,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             557.713,
             epsilon = 1e-3
@@ -1138,9 +1138,9 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
 
-        approx::assert_abs_diff_eq!(
+        approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
             538.720,
             epsilon = 1e-3

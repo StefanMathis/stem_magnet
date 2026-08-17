@@ -96,9 +96,9 @@ representation:
 ## `new`
 
 ```
-use approx;
+use approxim;
 use stem_magnet::prelude::*;
-use serde_yaml;
+use yaml_serde;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -110,17 +110,17 @@ material:
     relative_permeability: 1.05
 "}; // All other material fields are default
 
-let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
+let magnet: BreadLoafMagnet = yaml_serde::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
-approx::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
-approx::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
+approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
+approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
 ```
 
 ## `with_center_thickness`
 
 ```
 use stem_magnet::prelude::*;
-use serde_yaml;
+use yaml_serde;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -132,10 +132,10 @@ material:
     relative_permeability: 1.05
 "}; // All other material fields are default
 
-let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
+let magnet: BreadLoafMagnet = yaml_serde::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
-approx::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
-approx::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
+approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
+approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
 ```
 
  */
@@ -339,10 +339,7 @@ impl BreadLoafMagnet {
         let c = shape.centroid()[1];
         let cut =
             Polysegment::from_points(&[[-width.get::<meter>(), c], [width.get::<meter>(), c]]);
-        let mut chains =
-            shape
-                .contour()
-                .intersection_cut(&cut, DEFAULT_EPSILON, DEFAULT_MAX_RELATIVE);
+        let mut chains = shape.contour().intersection_cut(&cut);
         let number_north_south_chains = chains.len();
 
         compare_variables!(number_north_south_chains == 2)?;

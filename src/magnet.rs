@@ -255,7 +255,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
 
     ```
     use std::sync::Arc;
-    use approx::assert_abs_diff_eq;
+    use approxim::assert_abs_diff_eq;
     use stem_magnet::prelude::*;
     use stem_magnet::prelude::unary::FirstOrderTaylor;
 
@@ -361,14 +361,14 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     ///     Length::new::<millimeter>(0.0),
     ///     Length::new::<millimeter>(10.0),
     /// ]);
-    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
     /// assert_eq!(rel_remanence, 1.0);
     ///
     /// let [angle, rel_remanence] = magnet.magnetization_vector([
     ///     Length::new::<millimeter>(-5.0),
     ///     Length::new::<millimeter>(10.0),
     /// ]);
-    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
     /// assert_eq!(rel_remanence, 1.0);
     /// ```
     ///
@@ -393,14 +393,14 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     ///     Length::new::<millimeter>(0.0),
     ///     Length::new::<millimeter>(10.0),
     /// ]);
-    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(angle, FRAC_PI_2, epsilon = 1e-3);
     /// assert_eq!(rel_remanence, 1.0);
     ///
     /// let [angle, rel_remanence] = magnet.magnetization_vector([
     ///     Length::new::<millimeter>(-5.0),
     ///     Length::new::<millimeter>(10.0),
     /// ]);
-    /// approx::assert_abs_diff_eq!(angle, FRAC_PI_2 - 0.0829, epsilon = 1e-3);
+    /// approxim::assert_abs_diff_eq!(angle, FRAC_PI_2 - 0.0829, epsilon = 1e-3);
     /// assert_eq!(rel_remanence, 1.0);
     /// ```
     fn magnetization_vector(&self, _: [Length; 2]) -> [f64; 2] {
@@ -425,7 +425,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
 
     ```
     use std::sync::Arc;
-    use approx::assert_abs_diff_eq;
+    use approxim::assert_abs_diff_eq;
     use stem_magnet::prelude::*;
 
     let magnet = BlockMagnet::new(
@@ -450,10 +450,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
         // If "cutted" does not contain two results, give up and just return the
         // initial shape twice. The algorithm clearly does not work for this
         // magnet geometry ...
-        let cutted: Vec<Polysegment> =
-            shape
-                .contour()
-                .intersection_cut(&cut_line, DEFAULT_EPSILON, DEFAULT_MAX_RELATIVE);
+        let cutted: Vec<Polysegment> = shape.contour().intersection_cut(&cut_line);
         if cutted.len() == 2 {
             let mut it = cutted.into_iter();
             let north_chain = it.next().expect("has two elements");

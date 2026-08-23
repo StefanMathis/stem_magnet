@@ -2,11 +2,13 @@
 > Found a bug, missing docs, or have a feature request?  
 > Please open an issue on [GitHub](https://github.com/StefanMathis/stem_magnet.git).
 
-This crate provides the [`Magnet`] trait for permanent magnets in the stem
-(Simulation Toolbox for Electric Motors) framework (see the
-[stem book](https://stefanmathis.github.io/stem_book/)). The trait itself has
-little logic and mainly specifies an interface for using permanent magnets in
-simulation models.
+This crate is part of the stem (Simulation Toolbox for Electric Motors)
+framework. See the [stem book](https://stefanmathis.github.io/stem_book/) for an
+introduction.
+
+This crate provides the [`Magnet`] trait for permanent magnets in stem. Th
+trait itself has little logic and mainly specifies an interface for using
+permanent magnets in simulation models.
 
 The following predefined implementors of [`Magnet`] are available:
 - [`BlockMagnet`]: A cuboid magnet, possibly with fillets.
@@ -36,6 +38,13 @@ it is possible to serialize the quantities of a wire as value-unit strings using
 the [serialize_with_units](https://docs.rs/dyn_quantity/latest/dyn_quantity/quantity/serde_impl/fn.serialize_with_units.html) function.
 
 See the chapter [serialization and deserialization](https://stefanmathis.github.io/stem_book/serialization_and_deserialization.html) of the [stem book](https://stefanmathis.github.io/stem_book/)
+for details.
+
+# Visualization
+
+If the `cairo` feature is enabled, the magnet shapes can be drawn onto a
+[cairo](cairographics.org) context using the drawing mechanics from the
+[planar_geo](https://crates.io/crates/planar_geo) crate. See its documentation
 for details.
 
 # Acknowledgments

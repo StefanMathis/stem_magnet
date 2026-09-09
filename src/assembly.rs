@@ -101,8 +101,8 @@ assert!(yaml_serde::from_str::<MagnetAssembly>(&str).is_err());
 #[cfg_attr(feature = "serde", serde(deny_unknown_fields))]
 pub struct MagnetAssembly {
     magnet: Box<dyn Magnet>,
-    num_axial: usize,
-    num_tangential: usize,
+    num_axial: NonZeroUsize,
+    num_tangential: NonZeroUsize,
 }
 
 impl MagnetAssembly {
@@ -120,8 +120,8 @@ impl MagnetAssembly {
     ) -> MagnetAssembly {
         return MagnetAssembly {
             magnet: Box::new(magnet),
-            num_axial: num_axial.into(),
-            num_tangential: num_tangential.into(),
+            num_axial,
+            num_tangential,
         };
     }
 
@@ -147,12 +147,12 @@ impl MagnetAssembly {
     }
 
     /// Returns the number of times the base magnet is repeated axially.
-    pub fn num_axial(&self) -> usize {
+    pub fn num_axial(&self) -> NonZeroUsize {
         return self.num_axial;
     }
 
     /// Returns the number of times the base magnet is repeated tangentially.
-    pub fn num_tangential(&self) -> usize {
+    pub fn num_tangential(&self) -> NonZeroUsize {
         return self.num_tangential;
     }
 
@@ -176,11 +176,12 @@ impl MagnetAssembly {
         Arc::new(Default::default()),
     ).expect("valid inputs");
     let assembly = MagnetAssembly::new(magnet, 2.try_into().unwrap(), 3.try_into().unwrap());
-    assert_eq!(assembly.num_magnets(), 6);
+    assert_eq!(assembly.num_magnets().get(), 6);
     ```
      */
-    pub fn num_magnets(&self) -> usize {
-        return self.num_axial * self.num_tangential;
+    pub fn num_magnets(&self) -> NonZeroUsize {
+        return NonZeroUsize::new(self.num_axial.get() * self.num_tangential.get())
+            .expect("product of nonzeros is also nonzero");
     }
 
     /**
@@ -207,7 +208,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn width(&self) -> Length {
-        return self.magnet().width() * self.num_tangential as f64;
+        return self.magnet().width() * self.num_tangential.get() as f64;
     }
 
     /**
@@ -234,7 +235,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn length(&self) -> Length {
-        return self.magnet().length() * self.num_axial as f64;
+        return self.magnet().length() * self.num_axial.get() as f64;
     }
 
     /**
@@ -261,7 +262,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn volume(&self) -> Volume {
-        return self.magnet().volume() * self.num_magnets() as f64;
+        return self.magnet().volume() * self.num_magnets().get() as f64;
     }
 
     /**
@@ -288,7 +289,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn mass(&self) -> Mass {
-        return self.magnet().mass() * self.num_magnets() as f64;
+        return self.magnet().mass() * self.num_magnets().get() as f64;
     }
 
     /**
@@ -324,7 +325,7 @@ impl MagnetAssembly {
     ```
      */
     pub fn magnetomotive_force(&self, conditions: &[DynQuantity<f64>]) -> ElectricCurrent {
-        return self.magnet().magnetomotive_force(conditions) * self.num_magnets() as f64;
+        return self.magnet().magnetomotive_force(conditions) * self.num_magnets().get() as f64;
     }
 }
 

@@ -1,6 +1,6 @@
 [package]
 name = "stem_magnet"
-version = "0.4.1"
+version = "0.5.0"
 edition = "2024"
 description = "Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors."
 readme = "README.md"

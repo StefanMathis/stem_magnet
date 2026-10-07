@@ -11,12 +11,13 @@ repository = "https://github.com/StefanMathis/stem_magnet.git"
 
 [dependencies]
 compare_variables = { version = "0.3.0", features = ["proc_macro"] }
-planar_geo = { version = "0.6.0" }
+planar_geo = { version = "0.6.2" }
 rayon = "1"
 serde_mosaic = { version = "0.3", optional = true }
-deserialize_untagged_verbose_error = { version = "0.1", optional = true }
+deserialize_untagged_verbose_error = { version = "0.1.8", optional = true }
 serde = { version = "1", features = ["derive", "rc"], optional = true }
-stem_material = { version = "0.4.0" }
+# stem_material = { version = "0.4.0" }
+stem_material = { path = "../stem_material" } 
 dyn-clone = "1"
 typetag = { version = "^0.2", optional = true }
 embed-doc-image = { version = "0.1.4", optional = true }

@@ -285,11 +285,11 @@ impl MagnetAssembly {
         Arc::new(Default::default()),
     ).expect("valid inputs");
     let assembly = MagnetAssembly::new(magnet, 2.try_into().unwrap(), 3.try_into().unwrap());
-    assert_eq!(assembly.mass().get::<kilogram>(), 0.12);
+    assert_eq!(assembly.mass().get(&[]).get::<kilogram>(), 0.12);
     ```
      */
-    pub fn mass(&self) -> Mass {
-        return self.magnet().mass() * self.num_magnets().get() as f64;
+    pub fn mass(&self) -> VarQuantity<Mass> {
+        return self.magnet().mass() * VarQuantity::<f64>::from(self.num_magnets().get() as f64);
     }
 
     /**

@@ -68,7 +68,7 @@ fn test_block_magnet_no_fillet() {
 
     approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
     assert_eq!(magnet.volume().get::<cubic_meter>(), 0.165 * 10e-3 * 20e-3);
-    assert_eq!(magnet.mass().get::<kilogram>(), 0.165);
+    assert_eq!(magnet.mass().get(&[]).get::<kilogram>(), 0.165);
 
     approxim::assert_abs_diff_eq!(
         magnet
@@ -153,7 +153,11 @@ fn test_block_magnet_fillet() {
         magnet.volume().get::<cubic_meter>(),
         0.165 * (10e-3 * 20e-3 - 4.0e-6 + PI * 1e-3f64.powi(2))
     );
-    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.16429, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(
+        magnet.mass().get(&[]).get::<kilogram>(),
+        0.16429,
+        epsilon = 0.001
+    );
 
     approxim::assert_abs_diff_eq!(
         magnet

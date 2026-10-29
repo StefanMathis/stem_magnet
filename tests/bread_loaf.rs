@@ -121,7 +121,11 @@ fn test_properties_convex() {
         3.522698e-5,
         epsilon = 1e-9
     );
-    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1761, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(
+        magnet.mass().get(&[]).get::<kilogram>(),
+        0.1761,
+        epsilon = 0.001
+    );
 
     approxim::assert_abs_diff_eq!(
         magnet
@@ -174,7 +178,11 @@ fn test_properties_concave() {
         3.0773019e-5,
         epsilon = 1e-9
     );
-    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.1538, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(
+        magnet.mass().get(&[]).get::<kilogram>(),
+        0.1538,
+        epsilon = 0.001
+    );
 
     approxim::assert_abs_diff_eq!(
         magnet

@@ -223,8 +223,8 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     This value equals the [`Magnet::volume`] times the
     [`Material::mass_density`] of the [`Magnet::material`].
      */
-    fn mass(&self) -> Mass {
-        return self.volume() * self.material().mass_density().get(&[]);
+    fn mass(&self) -> VarQuantity<Mass> {
+        return VarQuantity::from(self.volume()) * self.material().mass_density().clone();
     }
 
     /**
@@ -260,7 +260,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     use stem_magnet::prelude::unary::FirstOrderTaylor;
 
     let mut material = Material::default();
-    material.remanence = VarQuantity::try_from_quantity_function(
+    material.remanence = VarQuantity::new(
         FirstOrderTaylor::new(
             DynQuantity::new(0.43, PredefUnit::MagneticFluxDensity),
             DynQuantity::new(-0.001733, Unit::from(PredefUnit::Temperature).powi(-1)),

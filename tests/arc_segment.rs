@@ -481,7 +481,11 @@ fn test_arc_segment_inner() {
         4.751658e-5,
         epsilon = 1e-9
     );
-    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.2375, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(
+        magnet.mass().get(&[]).get::<kilogram>(),
+        0.2375,
+        epsilon = 0.001
+    );
 
     approxim::assert_abs_diff_eq!(
         magnet
@@ -520,7 +524,11 @@ fn test_arc_segment_outer() {
         4.751658e-5,
         epsilon = 1e-9
     );
-    approxim::assert_abs_diff_eq!(magnet.mass().get::<kilogram>(), 0.2375, epsilon = 0.001);
+    approxim::assert_abs_diff_eq!(
+        magnet.mass().get(&[]).get::<kilogram>(),
+        0.2375,
+        epsilon = 0.001
+    );
 
     approxim::assert_abs_diff_eq!(
         magnet

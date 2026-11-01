@@ -396,7 +396,7 @@ representation:
 
 ```
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 use approxim;
 
 let str = indoc::indoc! {"
@@ -409,7 +409,7 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 484.300, epsilon = 1e-3);
 ```
@@ -418,7 +418,7 @@ approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 484.300,
 
 ```
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 use approxim;
 
 let str = indoc::indoc! {"
@@ -430,7 +430,7 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 507.533, epsilon = 1e-3);
 ```
@@ -439,7 +439,7 @@ approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 507.533,
 
 ```
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 use approxim;
 
 let str = indoc::indoc! {"
@@ -452,7 +452,7 @@ material:
     name: NMF-12J 430mT
     relative_permeability: 1.05
 "};
-let magnet: ArcParallelMagnet = yaml_serde::from_str(str).expect("valid magnet");
+let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.08, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 499.999, epsilon = 1e-3);
 ```

@@ -224,7 +224,7 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     [`Material::mass_density`] of the [`Magnet::material`].
      */
     fn mass(&self) -> VarQuantity<Mass> {
-        return VarQuantity::from(self.volume()) * self.material().mass_density().clone();
+        return VarQuantity::from(self.volume()) * self.material().mass_density();
     }
 
     /**
@@ -290,9 +290,9 @@ pub trait Magnet: Sync + Send + DynClone + std::fmt::Debug + Any {
     ```
      */
     fn magnetomotive_force(&self, conditions: &[DynQuantity<f64>]) -> ElectricCurrent {
-        let remanence = self.material().remanence().get(conditions);
+        let remanence = self.material().remanence().eval(conditions);
         if remanence > MagneticFluxDensity::new::<tesla>(0.0) {
-            let rel_permeability = self.material().relative_permeability().get(conditions);
+            let rel_permeability = self.material().relative_permeability().eval(conditions);
             return remanence * self.thickness() / (rel_permeability * *VACUUM_PERMEABILITY);
         } else {
             return ElectricCurrent::new::<ampere>(0.0);

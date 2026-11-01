@@ -98,7 +98,7 @@ representation:
 ```
 use approxim;
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -110,7 +110,7 @@ material:
     relative_permeability: 1.05
 "}; // All other material fields are default
 
-let magnet: BreadLoafMagnet = yaml_serde::from_str(&str).expect("valid dimensions");
+let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
 approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
@@ -120,7 +120,7 @@ approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, e
 
 ```
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 
 let str = indoc::indoc! {"
 length: 165 mm
@@ -132,7 +132,7 @@ material:
     relative_permeability: 1.05
 "}; // All other material fields are default
 
-let magnet: BreadLoafMagnet = yaml_serde::from_str(&str).expect("valid dimensions");
+let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
 approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);

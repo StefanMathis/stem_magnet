@@ -25,7 +25,7 @@ fn ferrite() -> Material {
     thermal_conductivity: 4.0 W / m / K # https://www.bomatec.com/wp-content/uploads/2021/12/BMHFa-3227.pdf
     "};
 
-    return yaml_serde::from_str(&str).expect("valid material");
+    return serde_yaml::from_str(&str).expect("valid material");
 }
 
 #[test]
@@ -122,7 +122,7 @@ fn test_properties_convex() {
         epsilon = 1e-9
     );
     approxim::assert_abs_diff_eq!(
-        magnet.mass().get(&[]).get::<kilogram>(),
+        magnet.mass().eval(&[]).get::<kilogram>(),
         0.1761,
         epsilon = 0.001
     );
@@ -179,7 +179,7 @@ fn test_properties_concave() {
         epsilon = 1e-9
     );
     approxim::assert_abs_diff_eq!(
-        magnet.mass().get(&[]).get::<kilogram>(),
+        magnet.mass().eval(&[]).get::<kilogram>(),
         0.1538,
         epsilon = 0.001
     );

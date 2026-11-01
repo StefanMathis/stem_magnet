@@ -60,7 +60,7 @@ zero.
 ```
 use approxim;
 use stem_magnet::prelude::*;
-use yaml_serde;
+use serde_yaml;
 
 let str = indoc::indoc! {"
 magnet:
@@ -76,7 +76,7 @@ num_axial: 2
 num_tangential: 3
 "};
 
-let assembly: MagnetAssembly = yaml_serde::from_str(&str).expect("valid dimensions");
+let assembly: MagnetAssembly = serde_yaml::from_str(&str).expect("valid dimensions");
 assert_eq!(assembly.length().get::<millimeter>(), 200.0);
 
 // Number of axial magnets must not be zero!
@@ -93,7 +93,7 @@ magnet:
 num_axial: 0
 num_tangential: 3
 "};
-assert!(yaml_serde::from_str::<MagnetAssembly>(&str).is_err());
+assert!(serde_yaml::from_str::<MagnetAssembly>(&str).is_err());
 ```
  */
 #[derive(Debug)]
@@ -285,7 +285,7 @@ impl MagnetAssembly {
         Arc::new(Default::default()),
     ).expect("valid inputs");
     let assembly = MagnetAssembly::new(magnet, 2.try_into().unwrap(), 3.try_into().unwrap());
-    assert_eq!(assembly.mass().get(&[]).get::<kilogram>(), 0.12);
+    assert_eq!(assembly.mass().eval(&[]).get::<kilogram>(), 0.12);
     ```
      */
     pub fn mass(&self) -> VarQuantity<Mass> {

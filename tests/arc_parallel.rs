@@ -28,7 +28,7 @@ fn ferrite() -> Material {
     thermal_conductivity: 4.0 W / m / K # https://www.bomatec.com/wp-content/uploads/2021/12/BMHFa-3227.pdf
     "};
 
-    return yaml_serde::from_str(&str).expect("valid material");
+    return serde_yaml::from_str(&str).expect("valid material");
 }
 
 #[test]
@@ -973,8 +973,8 @@ fn serialize_and_deserialize() {
     )
     .unwrap();
 
-    let string = yaml_serde::to_string(&magnet).unwrap();
-    let de_magnet: ArcParallelMagnet = yaml_serde::from_str(&string).unwrap();
+    let string = serde_yaml::to_string(&magnet).unwrap();
+    let de_magnet: ArcParallelMagnet = serde_yaml::from_str(&string).unwrap();
 
     approxim::assert_abs_diff_eq!(
         magnet.air_gap_radius().get::<meter>(),
@@ -1009,7 +1009,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1028,7 +1028,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1046,7 +1046,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1064,7 +1064,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1082,7 +1082,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1100,7 +1100,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1119,7 +1119,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),
@@ -1138,7 +1138,7 @@ fn deserialize() {
             name: NMF-12J 430mT
             relative_permeability: 1.05
         "};
-        let magnet: ArcParallelMagnet = yaml_serde::from_str(str).unwrap();
+        let magnet: ArcParallelMagnet = serde_yaml::from_str(str).unwrap();
 
         approxim::assert_abs_diff_eq!(
             magnet.area().get::<square_millimeter>(),

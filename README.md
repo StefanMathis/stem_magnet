@@ -14,17 +14,15 @@ modify the components. -->
 
 [![Documentation](https://docs.rs/stem_magnet/badge.svg)](https://docs.rs/stem_magnet)
 
-Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors.
+Permanent magnet definition for stem – a Simulation Toolbox for Electric Motors. The
+[stem book](https://stefanmathis.github.io/stem_book/) provides a comprehensive
+guide to the framework, while this crate's documentation describes its API.
 
 The full API documentation is available at <https://docs.rs/stem_magnet/0.5.0/stem_magnet>.
 
 > **Feedback welcome!**  
 > Found a bug, missing docs, or have a feature request?  
 > Please open an issue on [GitHub](https://github.com/StefanMathis/stem_magnet.git).
-
-This crate is part of the stem (Simulation Toolbox for Electric Motors)
-framework. See the [stem book](https://stefanmathis.github.io/stem_book/) for an
-introduction.
 
 This crate provides the [`Magnet`] trait for permanent magnets in stem. Th
 trait itself has little logic and mainly specifies an interface for using

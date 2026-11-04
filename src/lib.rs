@@ -5,7 +5,9 @@
 [`ArcParallelMagnet`]: crate::arc::ArcParallelMagnet
 [`ArcSegmentMagnet`]: crate::arc::ArcSegmentMagnet
 
-Permanent magnet definition for stem - a Simulation Toolbox for Electric Motors.
+Permanent magnet definition for stem – a Simulation Toolbox for Electric Motors. The
+[stem book](https://stefanmathis.github.io/stem_book/) provides a comprehensive
+guide to the framework, while this crate's documentation describes its API.
 
  */
 #![cfg_attr(feature = "doc-images",

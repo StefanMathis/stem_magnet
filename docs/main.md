@@ -2,10 +2,6 @@
 > Found a bug, missing docs, or have a feature request?  
 > Please open an issue on [GitHub](https://github.com/StefanMathis/stem_magnet.git).
 
-This crate is part of the stem (Simulation Toolbox for Electric Motors)
-framework. See the [stem book](https://stefanmathis.github.io/stem_book/) for an
-introduction.
-
 This crate provides the [`Magnet`] trait for permanent magnets in stem. Th
 trait itself has little logic and mainly specifies an interface for using
 permanent magnets in simulation models.

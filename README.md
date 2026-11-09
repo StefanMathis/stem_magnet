@@ -5,11 +5,11 @@ stem_magnet
 docs/main.md and (if available docs/end.md). Do not modify this file, instead
 modify the components. -->
 
-[`Magnet`]: https://docs.rs/stem_magnet/0.5.0/stem_magnet/magnet/trait.Magnet.html
-[`BlockMagnet`]: https://docs.rs/stem_magnet/0.5.0/stem_magnet/block/struct.BlockMagnet.html
-[`BreadLoafMagnet`]: https://docs.rs/stem_magnet/0.5.0/stem_magnet/bread_loaf/struct.BreadLoafMagnet.html
-[`ArcParallelMagnet`]: https://docs.rs/stem_magnet/0.5.0/stem_magnet/arc/struct.ArcParallelMagnet.html
-[`ArcSegmentMagnet`]: https://docs.rs/stem_magnet/0.5.0/stem_magnet/arc/struct.ArcSegmentMagnet.html
+[`Magnet`]: https://docs.rs/stem_magnet/0.6.0/stem_magnet/magnet/trait.Magnet.html
+[`BlockMagnet`]: https://docs.rs/stem_magnet/0.6.0/stem_magnet/block/struct.BlockMagnet.html
+[`BreadLoafMagnet`]: https://docs.rs/stem_magnet/0.6.0/stem_magnet/bread_loaf/struct.BreadLoafMagnet.html
+[`ArcParallelMagnet`]: https://docs.rs/stem_magnet/0.6.0/stem_magnet/arc/struct.ArcParallelMagnet.html
+[`ArcSegmentMagnet`]: https://docs.rs/stem_magnet/0.6.0/stem_magnet/arc/struct.ArcSegmentMagnet.html
 [magnet_types_overview.svg]: https://raw.githubusercontent.com/StefanMathis/stem_magnet/refs/heads/main/docs/img/magnet_types_overview.svg
 
 [![Documentation](https://docs.rs/stem_magnet/badge.svg)](https://docs.rs/stem_magnet)
@@ -18,7 +18,7 @@ Permanent magnet definition for stem – a Simulation Toolbox for Electric Motor
 [stem book](https://stefanmathis.github.io/stem_book/) provides a comprehensive
 guide to the framework, while this crate's documentation describes its API.
 
-The full API documentation is available at <https://docs.rs/stem_magnet/0.5.0/stem_magnet>.
+The full API documentation is available at <https://docs.rs/stem_magnet/0.6.0/stem_magnet>.
 
 > **Feedback welcome!**  
 > Found a bug, missing docs, or have a feature request?  

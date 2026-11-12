@@ -96,6 +96,8 @@ representation:
 ## `new`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use approxim;
 use stem_magnet::prelude::*;
 use serde_yaml;
@@ -114,11 +116,14 @@ let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimension
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
 approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
+# }
 ```
 
 ## `with_center_thickness`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 
@@ -136,8 +141,8 @@ let magnet: BreadLoafMagnet = serde_yaml::from_str(&str).expect("valid dimension
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 approxim::assert_abs_diff_eq!(magnet.radius().get::<meter>(), 0.05, epsilon=1e-3);
 approxim::assert_abs_diff_eq!(magnet.center_thickness().get::<meter>(), 0.011, epsilon=1e-3);
+# }
 ```
-
  */
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "serde", derive(Serialize))]

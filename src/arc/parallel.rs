@@ -4,7 +4,6 @@ sides are parallel. See the struct documentation for more.
  */
 
 use std::{borrow::Cow, sync::Arc};
-use stem_material::prelude::*;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -13,8 +12,6 @@ use serde::{Deserialize, Serialize};
 use serde_mosaic::serialize_arc_link;
 
 use compare_variables::compare_variables;
-
-use planar_geo::prelude::*;
 
 use super::*;
 use crate::magnet::Magnet;
@@ -395,6 +392,8 @@ representation:
 ## `new`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -412,11 +411,14 @@ material:
 let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 484.300, epsilon = 1e-3);
+# }
 ```
 
 ## `with_const_thickness`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -433,11 +435,14 @@ material:
 let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 507.533, epsilon = 1e-3);
+# }
 ```
 
 ## `with_center_thickness`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -455,6 +460,7 @@ material:
 let magnet: ArcParallelMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.08, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 499.999, epsilon = 1e-3);
+# }
 ```
 */
 #[derive(Debug, Clone)]

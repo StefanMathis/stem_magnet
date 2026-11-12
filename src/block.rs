@@ -61,6 +61,8 @@ The following example shows how a block magnet can be deserialized from these
 five fields:
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 
@@ -77,6 +79,7 @@ material:
 let magnet: BlockMagnet = serde_yaml::from_str(&str).expect("valid dimensions");
 assert_eq!(magnet.length().get::<meter>(), 0.165);
 assert_eq!(magnet.fillet().get::<meter>(), 0.002);
+# }
 ```
  */
 #[derive(Debug, Clone)]

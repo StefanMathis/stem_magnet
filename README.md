@@ -13,6 +13,7 @@ modify the components. -->
 [magnet_types_overview.svg]: https://raw.githubusercontent.com/StefanMathis/stem_magnet/refs/heads/main/docs/img/magnet_types_overview.svg
 
 [![Documentation](https://docs.rs/stem_magnet/badge.svg)](https://docs.rs/stem_magnet)
+[![CI](https://github.com/StefanMathis/stem_magnet/actions/workflows/ci.yml/badge.svg)](https://github.com/StefanMathis/stem_magnet/actions/workflows/ci.yml)
 
 Permanent magnet definition for stem – a Simulation Toolbox for Electric Motors. The
 [stem book](https://stefanmathis.github.io/stem_book/) provides a comprehensive

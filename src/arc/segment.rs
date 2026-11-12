@@ -8,7 +8,6 @@ use std::{
     f64::consts::{FRAC_PI_2, PI},
     sync::Arc,
 };
-use stem_material::prelude::*;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -17,8 +16,6 @@ use serde::{Deserialize, Serialize};
 use serde_mosaic::serialize_arc_link;
 
 use compare_variables::compare_variables;
-
-use planar_geo::prelude::*;
 
 use super::*;
 use crate::magnet::Magnet;
@@ -142,6 +139,8 @@ representation. The following examples all result in the same magnet:
 ## `new`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -159,11 +158,14 @@ material:
 let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+# }
 ```
 
 ## `with_const_thickness`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -180,11 +182,14 @@ material:
 let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+# }
 ```
 
 ## `with_center_thickness`
 
 ```
+# #[cfg(feature = "serde")]
+# {
 use stem_magnet::prelude::*;
 use serde_yaml;
 use approxim;
@@ -202,6 +207,7 @@ material:
 let magnet: ArcSegmentMagnet = serde_yaml::from_str(str).expect("valid magnet");
 approxim::assert_abs_diff_eq!(magnet.air_gap_radius().get::<meter>(), 0.09, epsilon = 1e-3);
 approxim::assert_abs_diff_eq!(magnet.area().get::<square_millimeter>(), 445.058, epsilon = 1e-3);
+# }
 ```
 */
 #[derive(Debug, Clone)]

@@ -58,6 +58,8 @@ To deserialize a [`MagnetAssembly`], the fields `magnet`, `num_axial` and
 [`new`](MagnetAssembly::new)) constructor. The latter two fields must not be
 zero.
 ```
+# #[cfg(feature = "serde")]
+# {
 use approxim;
 use stem_magnet::prelude::*;
 use serde_yaml;
@@ -94,6 +96,7 @@ num_axial: 0
 num_tangential: 3
 "};
 assert!(serde_yaml::from_str::<MagnetAssembly>(&str).is_err());
+# }
 ```
  */
 #[derive(Debug)]

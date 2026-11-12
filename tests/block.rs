@@ -1,10 +1,12 @@
-use std::{f64::consts::PI, sync::Arc};
+#[cfg(feature = "serde")]
+mod serde_tests {
 
-use cairo_viewport::*;
-use stem_magnet::prelude::*;
+    use std::{f64::consts::PI, sync::Arc};
 
-fn ferrite() -> Material {
-    let str = indoc::indoc! {"
+    use stem_magnet::prelude::*;
+
+    fn ferrite() -> Material {
+        let str = indoc::indoc! {"
     name: NMF-12J 430mT
     relative_permeability: 1.05
     remanence: 
@@ -24,203 +26,224 @@ fn ferrite() -> Material {
     thermal_conductivity: 4.0 W / m / K # https://www.bomatec.com/wp-content/uploads/2021/12/BMHFa-3227.pdf
     "};
 
-    return serde_yaml::from_str(&str).expect("valid material");
-}
+        return serde_yaml::from_str(&str).expect("valid material");
+    }
 
-#[test]
-fn test_failed_creation() {
-    let mat_arc = Arc::new(ferrite());
+    #[test]
+    fn test_failed_creation() {
+        let mat_arc = Arc::new(ferrite());
 
-    assert!(
-        BlockMagnet::new(
+        assert!(
+            BlockMagnet::new(
+                Length::new::<millimeter>(165.0),
+                Length::new::<millimeter>(20.0),
+                Length::new::<millimeter>(10.0),
+                Length::new::<millimeter>(-1000.0),
+                mat_arc.clone()
+            )
+            .is_err()
+        ); // Fillet too small
+        assert!(
+            BlockMagnet::new(
+                Length::new::<millimeter>(165.0),
+                Length::new::<millimeter>(20.0),
+                Length::new::<millimeter>(10.0),
+                Length::new::<millimeter>(1000.0),
+                mat_arc.clone()
+            )
+            .is_err()
+        ); // Fillet too large
+    }
+
+    #[test]
+    fn test_block_magnet_no_fillet() {
+        let mat_arc = Arc::new(ferrite());
+
+        let magnet = BlockMagnet::new(
             Length::new::<millimeter>(165.0),
             Length::new::<millimeter>(20.0),
             Length::new::<millimeter>(10.0),
-            Length::new::<millimeter>(-1000.0),
-            mat_arc.clone()
+            Length::new::<millimeter>(0.0),
+            mat_arc,
         )
-        .is_err()
-    ); // Fillet too small
-    assert!(
-        BlockMagnet::new(
+        .unwrap();
+
+        approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
+        assert_eq!(magnet.volume().get::<cubic_meter>(), 0.165 * 10e-3 * 20e-3);
+        assert_eq!(magnet.mass().eval(&[]).get::<kilogram>(), 0.165);
+
+        approxim::assert_abs_diff_eq!(
+            magnet
+                .magnetomotive_force(
+                    &[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()]
+                )
+                .get::<ampere>(),
+            3258.887,
+            epsilon = 0.001
+        );
+        approxim::assert_abs_diff_eq!(
+            magnet
+                .magnetomotive_force(&[
+                    ThermodynamicTemperature::new::<degree_celsius>(120.0).into()
+                ])
+                .get::<ampere>(),
+            2694.122,
+            epsilon = 0.001
+        );
+    }
+
+    #[test]
+    fn test_block_magnet_fillet() {
+        let mat_arc = Arc::new(ferrite());
+
+        let magnet = BlockMagnet::new(
             Length::new::<millimeter>(165.0),
             Length::new::<millimeter>(20.0),
             Length::new::<millimeter>(10.0),
-            Length::new::<millimeter>(1000.0),
-            mat_arc.clone()
+            Length::new::<millimeter>(1.0),
+            mat_arc,
         )
-        .is_err()
-    ); // Fillet too large
+        .unwrap();
+
+        approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
+        assert_eq!(
+            magnet.volume().get::<cubic_meter>(),
+            0.165 * (10e-3 * 20e-3 - 4.0e-6 + PI * 1e-3f64.powi(2))
+        );
+        approxim::assert_abs_diff_eq!(
+            magnet.mass().eval(&[]).get::<kilogram>(),
+            0.16429,
+            epsilon = 0.001
+        );
+
+        approxim::assert_abs_diff_eq!(
+            magnet
+                .magnetomotive_force(
+                    &[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()]
+                )
+                .get::<ampere>(),
+            3258.887,
+            epsilon = 0.001
+        );
+        approxim::assert_abs_diff_eq!(
+            magnet
+                .magnetomotive_force(&[
+                    ThermodynamicTemperature::new::<degree_celsius>(120.0).into()
+                ])
+                .get::<ampere>(),
+            2694.122,
+            epsilon = 0.001
+        );
+    }
 }
 
-#[test]
-fn test_block_magnet_no_fillet() {
-    let mat_arc = Arc::new(ferrite());
+#[cfg(feature = "cairo")]
+mod cairo_tests {
 
-    let magnet = BlockMagnet::new(
-        Length::new::<millimeter>(165.0),
-        Length::new::<millimeter>(20.0),
-        Length::new::<millimeter>(10.0),
-        Length::new::<millimeter>(0.0),
-        mat_arc,
-    )
-    .unwrap();
+    use cairo_viewport::*;
+    use std::sync::Arc;
+    use stem_magnet::prelude::*;
 
-    approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
-    assert_eq!(magnet.volume().get::<cubic_meter>(), 0.165 * 10e-3 * 20e-3);
-    assert_eq!(magnet.mass().eval(&[]).get::<kilogram>(), 0.165);
+    #[test]
 
-    approxim::assert_abs_diff_eq!(
-        magnet
-            .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()])
-            .get::<ampere>(),
-        3258.887,
-        epsilon = 0.001
-    );
-    approxim::assert_abs_diff_eq!(
-        magnet
-            .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(120.0).into()])
-            .get::<ampere>(),
-        2694.122,
-        epsilon = 0.001
-    );
-}
+    fn block_magnet_no_fillet_visualize() {
+        let material = Material::default();
+        let magnet = BlockMagnet::new(
+            Length::new::<millimeter>(165.0),
+            Length::new::<millimeter>(20.0),
+            Length::new::<millimeter>(10.0),
+            Length::new::<millimeter>(0.0),
+            Arc::new(material),
+        )
+        .unwrap();
 
-#[test]
+        // Image comparison
+        let drawables = magnet.drawables(false, false);
 
-fn block_magnet_no_fillet_visualize() {
-    let material = Material::default();
-    let magnet = BlockMagnet::new(
-        Length::new::<millimeter>(165.0),
-        Length::new::<millimeter>(20.0),
-        Length::new::<millimeter>(10.0),
-        Length::new::<millimeter>(0.0),
-        Arc::new(material),
-    )
-    .unwrap();
+        let view =
+            Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
+        let path = std::path::Path::new("tests/img/block_single_no_fillet.png");
 
-    // Image comparison
-    let drawables = magnet.drawables(false, false);
+        // Always compare to the same reference image
+        let callback = |path: &std::path::Path| {
+            return view.write_to_file(path, move |cr| {
+                cr.set_source_rgb(1.0, 1.0, 1.0);
+                for drawable in drawables.iter() {
+                    drawable.draw(&cr)?;
+                }
+                return Ok(());
+            });
+        };
+        assert!(compare_or_create(path, callback, 0.95).is_ok());
 
-    let view = Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
-    let path = std::path::Path::new("tests/img/block_single_no_fillet.png");
+        let drawables = magnet.drawables(true, false);
 
-    // Always compare to the same reference image
-    let callback = |path: &std::path::Path| {
-        return view.write_to_file(path, move |cr| {
-            cr.set_source_rgb(1.0, 1.0, 1.0);
-            for drawable in drawables.iter() {
-                drawable.draw(&cr)?;
-            }
-            return Ok(());
-        });
-    };
-    assert!(compare_or_create(path, callback, 0.95).is_ok());
+        let view =
+            Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
+        let path = std::path::Path::new("tests/img/block_split_no_fillet.png");
 
-    let drawables = magnet.drawables(true, false);
+        // Always compare to the same reference image
+        let callback = |path: &std::path::Path| {
+            return view.write_to_file(path, move |cr| {
+                cr.set_source_rgb(1.0, 1.0, 1.0);
+                for drawable in drawables.iter() {
+                    drawable.draw(&cr)?;
+                }
+                return Ok(());
+            });
+        };
+        assert!(compare_or_create(path, callback, 0.95).is_ok());
+    }
 
-    let view = Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
-    let path = std::path::Path::new("tests/img/block_split_no_fillet.png");
+    #[test]
+    fn test_block_magnet_fillet_visualize() {
+        let material = Material::default();
+        let magnet = BlockMagnet::new(
+            Length::new::<millimeter>(165.0),
+            Length::new::<millimeter>(20.0),
+            Length::new::<millimeter>(10.0),
+            Length::new::<millimeter>(1.0),
+            Arc::new(material),
+        )
+        .unwrap();
 
-    // Always compare to the same reference image
-    let callback = |path: &std::path::Path| {
-        return view.write_to_file(path, move |cr| {
-            cr.set_source_rgb(1.0, 1.0, 1.0);
-            for drawable in drawables.iter() {
-                drawable.draw(&cr)?;
-            }
-            return Ok(());
-        });
-    };
-    assert!(compare_or_create(path, callback, 0.95).is_ok());
-}
+        // Image comparison
+        let drawables = magnet.drawables(false, false);
 
-#[test]
-fn test_block_magnet_fillet() {
-    let mat_arc = Arc::new(ferrite());
+        let view =
+            Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
+        let path = std::path::Path::new("tests/img/block_single_fillet.png");
 
-    let magnet = BlockMagnet::new(
-        Length::new::<millimeter>(165.0),
-        Length::new::<millimeter>(20.0),
-        Length::new::<millimeter>(10.0),
-        Length::new::<millimeter>(1.0),
-        mat_arc,
-    )
-    .unwrap();
+        // Always compare to the same reference image
+        let callback = |path: &std::path::Path| {
+            return view.write_to_file(path, move |cr| {
+                cr.set_source_rgb(1.0, 1.0, 1.0);
+                cr.paint()?;
+                for drawable in drawables.iter() {
+                    drawable.draw(&cr)?;
+                }
+                return Ok(());
+            });
+        };
+        assert!(compare_or_create(path, callback, 0.95).is_ok());
 
-    approxim::assert_abs_diff_eq!(magnet.area().get::<square_meter>(), magnet.shape().area());
-    assert_eq!(
-        magnet.volume().get::<cubic_meter>(),
-        0.165 * (10e-3 * 20e-3 - 4.0e-6 + PI * 1e-3f64.powi(2))
-    );
-    approxim::assert_abs_diff_eq!(
-        magnet.mass().eval(&[]).get::<kilogram>(),
-        0.16429,
-        epsilon = 0.001
-    );
+        let drawables = magnet.drawables(true, false);
 
-    approxim::assert_abs_diff_eq!(
-        magnet
-            .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(20.0).into()])
-            .get::<ampere>(),
-        3258.887,
-        epsilon = 0.001
-    );
-    approxim::assert_abs_diff_eq!(
-        magnet
-            .magnetomotive_force(&[ThermodynamicTemperature::new::<degree_celsius>(120.0).into()])
-            .get::<ampere>(),
-        2694.122,
-        epsilon = 0.001
-    );
-}
+        let view =
+            Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
+        let path = std::path::Path::new("tests/img/block_split_fillet.png");
 
-#[test]
-fn test_block_magnet_fillet_visualize() {
-    let material = Material::default();
-    let magnet = BlockMagnet::new(
-        Length::new::<millimeter>(165.0),
-        Length::new::<millimeter>(20.0),
-        Length::new::<millimeter>(10.0),
-        Length::new::<millimeter>(1.0),
-        Arc::new(material),
-    )
-    .unwrap();
-
-    // Image comparison
-    let drawables = magnet.drawables(false, false);
-
-    let view = Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
-    let path = std::path::Path::new("tests/img/block_single_fillet.png");
-
-    // Always compare to the same reference image
-    let callback = |path: &std::path::Path| {
-        return view.write_to_file(path, move |cr| {
-            cr.set_source_rgb(1.0, 1.0, 1.0);
-            cr.paint()?;
-            for drawable in drawables.iter() {
-                drawable.draw(&cr)?;
-            }
-            return Ok(());
-        });
-    };
-    assert!(compare_or_create(path, callback, 0.95).is_ok());
-
-    let drawables = magnet.drawables(true, false);
-
-    let view = Viewport::from_bounded_entities(drawables.iter(), SideLength::Long(500)).unwrap();
-    let path = std::path::Path::new("tests/img/block_split_fillet.png");
-
-    // Always compare to the same reference image
-    let callback = |path: &std::path::Path| {
-        return view.write_to_file(path, move |cr| {
-            cr.set_source_rgb(1.0, 1.0, 1.0);
-            cr.paint()?;
-            for drawable in drawables.iter() {
-                drawable.draw(&cr)?;
-            }
-            return Ok(());
-        });
-    };
-    assert!(compare_or_create(path, callback, 0.95).is_ok());
+        // Always compare to the same reference image
+        let callback = |path: &std::path::Path| {
+            return view.write_to_file(path, move |cr| {
+                cr.set_source_rgb(1.0, 1.0, 1.0);
+                cr.paint()?;
+                for drawable in drawables.iter() {
+                    drawable.draw(&cr)?;
+                }
+                return Ok(());
+            });
+        };
+        assert!(compare_or_create(path, callback, 0.95).is_ok());
+    }
 }
